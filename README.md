@@ -1,2 +1,2 @@
 # Bloomi
-An Android virtual garden, and plant tracking app
+A virtual Android garden and plant tracking app!
