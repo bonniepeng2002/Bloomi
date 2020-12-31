@@ -8,7 +8,7 @@
 
     <EditText
         android:id="@+id/edtPlantType"
-        android:layout_width="186dp"
+        android:layout_width="160dp"
         android:layout_height="47dp"
         android:ems="10"
         android:hint="@string/cactus"
@@ -18,8 +18,8 @@
 
     <EditText
         android:id="@+id/edtNickname"
-        android:layout_width="186dp"
-        android:layout_height="42dp"
+        android:layout_width="160dp"
+        android:layout_height="47dp"
         android:ems="10"
         android:hint="@string/pokey"
         android:inputType="textPersonName"
@@ -86,10 +86,10 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/edtNickname"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.804"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/edtPlantType"
         app:layout_constraintTop_toBottomOf="@+id/txtPlantType"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.977"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <Spinner
@@ -97,9 +97,9 @@
         android:layout_width="141dp"
         android:layout_height="45dp"
         android:layout_marginEnd="24dp"
+        android:entries="@array/metrics"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/edtHeight"
-        android:entries="@array/metrics"/>
+        app:layout_constraintTop_toTopOf="@+id/edtHeight" />
 
     <EditText
         android:id="@+id/edtHeight"
@@ -178,4 +178,36 @@
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/edtNickname"
         app:layout_constraintTop_toTopOf="@+id/notifsFrequency" />
+
+    <TextView
+        android:id="@+id/edtNameEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/nameEmpty"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edtPlantType"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toEndOf="@+id/edtPlantType" />
+
+    <TextView
+        android:id="@+id/edtNicknameEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/nameEmpty"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edtNickname"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/edtNickname" />
 </androidx.constraintlayout.widget.ConstraintLayout>

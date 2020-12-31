@@ -1,8 +1,5 @@
 package com.bonniepeng.bloomi;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -16,6 +13,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,16 +24,15 @@ import java.util.Calendar;
 
 public class AddPlant extends AppCompatActivity {
 
-    private TextView txtTitle,txtSciName,txtNickname,txtHeight,txtNotes;
+    private TextView txtTitle,txtSciName,txtNickname,txtHeight,txtNotes,edtNameEmpty,edtNicknameEmpty;
     private EditText edtName,edtNickname,edtHeight,edtNotes;
     private Spinner notifsFrequency,metric;
     private CheckBox cbNotifs;
     private Button addToGarden,pickTime;
     private ImageButton imageButton;
     private static int notifHour, notifMinute;
-    private boolean notify;
+    private boolean notify, displayEmpty;
 
-    //TODO: add metric options
     //TODO: add frequency options
     //TODO: set time differently: allow time to be seen and editted after they set it for a first time
     // allow time to be seen after they set it
@@ -63,6 +63,44 @@ public class AddPlant extends AppCompatActivity {
                 }
             }
         });
+
+        // SUBMITTING
+        addToGarden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edtNickname.getText().toString().equals("") && edtName.getText().toString().equals("")) {
+                    Toast.makeText(AddPlant.this, "Please give the plant at least one type of name.", Toast.LENGTH_LONG).show();
+                    displayEmpty = true;
+                } else {
+                    //TODO: change this for when we use databases
+//                    Plant newPlant = new Plant(
+//                            edtName.getText().toString(),
+//                            edtNickname.getText().toString(),
+//                            metric.getSelectedItem().toString(),
+//                            edtHeight.getText().toString(),
+//                            edtNotes.getText().toString(),
+//                            notifsFrequency.getSelectedItem().toString(),
+//                            Integer.toString(notifHour)+":"+Integer.toString(notifMinute),
+//                            imageButton.
+//                    )
+                }
+            }
+        });
+
+        // PLANT IMAGE
+
+
+
+        // EMPTY NAMES
+        if (displayEmpty){
+            if (!edtNickname.getText().toString().equals("") || !edtName.getText().toString().equals("")){
+                edtNicknameEmpty.setVisibility(View.GONE);
+                edtNameEmpty.setVisibility(View.GONE);
+            } else {
+                edtNicknameEmpty.setVisibility(View.VISIBLE);
+                edtNameEmpty.setVisibility(View.VISIBLE);
+            }
+        }
 
 
 
@@ -103,6 +141,8 @@ public class AddPlant extends AppCompatActivity {
         txtNickname = findViewById(R.id.txtNickname);
         txtHeight = findViewById(R.id.txtHeight);
         txtNotes = findViewById(R.id.txtNotes);
+        edtNameEmpty = findViewById(R.id.edtNameEmpty);
+        edtNicknameEmpty = findViewById(R.id.edtNicknameEmpty);
 
         // EDIT TEXTS
         edtName = findViewById(R.id.edtPlantType);
@@ -121,5 +161,8 @@ public class AddPlant extends AppCompatActivity {
         addToGarden = findViewById(R.id.btnAddToGarden);
         imageButton = findViewById(R.id.imageButton);
         pickTime = findViewById(R.id.btnTime);
+
+        //BOOLEANS
+        displayEmpty = false;
     }
 }

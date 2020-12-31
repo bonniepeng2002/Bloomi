@@ -6,13 +6,13 @@ public class Plant {
     private String sciName;
     private String nickname;
     private String metric;
-    private float height;
+    private String height;
     private String notes;
     private String waterDays;
     private String waterTime; //string??
     private Image image;
 
-    public Plant(String sciName, String nickname, String metric, float height, String notes, String waterDays, String waterTime, Image image) {
+    public Plant(String sciName, String nickname, String metric, String height, String notes, String waterDays, String waterTime, Image image) {
         this.sciName = sciName;
         this.nickname = nickname;
         this.metric = metric;
@@ -47,11 +47,11 @@ public class Plant {
         this.metric = metric;
     }
 
-    public float getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
