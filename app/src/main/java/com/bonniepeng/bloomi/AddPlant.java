@@ -5,22 +5,25 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,23 +31,19 @@ import java.util.Calendar;
 
 public class AddPlant extends AppCompatActivity {
 
-    private TextView txtTitle,txtSciName,txtNickname,txtHeight,txtNotes
-    ,edtNameEmpty,edtNicknameEmpty,txtNotifs;
+    private TextView txtTitle, txtSciName, txtNickname, txtHeight, txtNotes, edtNameEmpty, edtNicknameEmpty, txtNotifs;
     @SuppressLint("StaticFieldLeak")
     private static TextView txtTime, txtDate;
-    private EditText edtName,edtNickname,edtHeight,edtNotes;
-    private Spinner notifsFrequency,metric;
+    private EditText edtName, edtNickname, edtHeight, edtNotes;
+    private Spinner notifsFrequency, metric;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch swtchNotifs;
     private Button addToGarden, btnPickTime, btnPickDate;
     private ImageButton imageButton;
-    private static int notifHour, notifMinute;
     private boolean notify, displayEmpty;
+    private ScrollView parent;
 
     //TODO: check for all required fields and proper data when clicking add to garden
-    //TODO: allow to change image when image button is clicked
-    //TODO: set up database for all ur plants
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class AddPlant extends AppCompatActivity {
         swtchNotifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (!swtchNotifs.isChecked()){
+                if (!swtchNotifs.isChecked()) {
                     notify = false;
                     btnPickDate.setVisibility(View.GONE);
                     btnPickTime.setVisibility(View.GONE);
@@ -80,10 +79,20 @@ public class AddPlant extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (edtNickname.getText().toString().equals("") && edtName.getText().toString().equals("")) {
-                    Toast.makeText(AddPlant.this, "Please give the plant at least one type of name.", Toast.LENGTH_LONG).show();
+                    Snackbar.make(parent, "Please give the plant at least 1 name.", Snackbar.LENGTH_LONG)
+                            .show();
                     displayEmpty = true;
+                    emptyField();
+                } else if (notify && txtDate.getText().equals("dd / mm / yyyy")) {
+                    Snackbar.make(parent, "Please set a notification date.", Snackbar.LENGTH_LONG)
+                            .show();
+                } else if (notify && txtTime.getText().equals("hh : mm")) {
+                    Snackbar.make(parent, "Please set a notification time.", Snackbar.LENGTH_LONG)
+                            .show();
                 } else {
                     //TODO: change this for when we use databases
+                    Snackbar.make(parent, "SUCCESS", Snackbar.LENGTH_LONG)
+                            .show();
 //                    Plant newPlant = new Plant(
 //                            edtName.getText().toString(),
 //                            edtNickname.getText().toString(),
@@ -96,22 +105,62 @@ public class AddPlant extends AppCompatActivity {
 //                    )
                 }
             }
+
+            private void emptyField() {
+                if (displayEmpty) {
+                    edtNicknameEmpty.setVisibility(View.VISIBLE);
+                    edtNameEmpty.setVisibility(View.VISIBLE);
+                }
+
+                edtNickname.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (!edtNickname.getText().toString().equals("")) {
+                            edtNicknameEmpty.setVisibility(View.GONE);
+                            edtNameEmpty.setVisibility(View.GONE);
+                            displayEmpty = false;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                edtName.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        if (!edtName.getText().toString().equals("")) {
+                            edtNicknameEmpty.setVisibility(View.GONE);
+                            edtNameEmpty.setVisibility(View.GONE);
+                            displayEmpty = false;
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+            }
         });
+
+        // EMPTY NAMES
+
 
         // PLANT IMAGE
 
 
-
-        // EMPTY NAMES
-        if (displayEmpty){
-            if (!edtNickname.getText().toString().equals("") || !edtName.getText().toString().equals("")){
-                edtNicknameEmpty.setVisibility(View.GONE);
-                edtNameEmpty.setVisibility(View.GONE);
-            } else {
-                edtNicknameEmpty.setVisibility(View.VISIBLE);
-                edtNameEmpty.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     // LETTING USER PICK THE NOTIFICATION TIME
@@ -137,20 +186,20 @@ public class AddPlant extends AppCompatActivity {
             int newHour = hourOfDay;
             String newMinute = Integer.toString(minute);
 
-            if (hourOfDay>12){
-                newHour-=12;
+            if (hourOfDay > 12) {
+                newHour -= 12;
                 ampm = "pm";
-            } else if (hourOfDay==12){
+            } else if (hourOfDay == 12) {
                 ampm = "pm";
-            } else if (hourOfDay==0){
+            } else if (hourOfDay == 0) {
                 newHour = 12;
             }
 
-            if (minute<10){
-                newMinute = "0"+minute;
+            if (minute < 10) {
+                newMinute = "0" + minute;
             }
 
-            txtTime.setText(newHour +" : "+ newMinute+" "+ ampm);
+            txtTime.setText(newHour + " : " + newMinute + " " + ampm);
         }
     }
 
@@ -179,8 +228,8 @@ public class AddPlant extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         public void onDateSet(DatePicker view, int year, int month, int day) {
             int newMonth = month;
-            newMonth+=1;
-            txtDate.setText(day+" / "+newMonth+" / "+year);
+            newMonth += 1;
+            txtDate.setText(day + " / " + newMonth + " / " + year);
         }
     }
 
@@ -222,7 +271,10 @@ public class AddPlant extends AppCompatActivity {
         btnPickDate = findViewById(R.id.btnDate);
         btnPickTime = findViewById(R.id.btnTime);
 
-        //BOOLEANS
+        // BOOLEANS
         displayEmpty = false;
+
+        // LAYOUTS
+        parent = findViewById(R.id.parent);
     }
 }

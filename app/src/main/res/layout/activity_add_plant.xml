@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true">
+    android:background="#F6F6F6"
+    android:fillViewport="true"
+    android:id="@+id/parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/add_a_plant"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/teal_200"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/txtPlantType"
@@ -64,8 +66,8 @@
             android:id="@+id/notifsFrequency"
             android:layout_width="148dp"
             android:layout_height="35dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
             android:entries="@array/frequency"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/txtPlantType"
@@ -162,14 +164,12 @@
 
         <EditText
             android:id="@+id/edtNotes"
-            android:layout_width="360dp"
-            android:layout_height="68dp"
+            android:layout_width="350dp"
+            android:layout_height="64dp"
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/notes_hint"
             android:inputType="textMultiLine"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/txtNotes"
             app:layout_constraintTop_toBottomOf="@+id/txtNotes" />
 
@@ -186,7 +186,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/edtPlantType"
             app:layout_constraintEnd_toStartOf="@+id/imageButton"
-            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/edtPlantType" />
 
         <TextView
@@ -232,12 +232,12 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="12dp"
             android:onClick="showDatePickerDialog"
             android:text="@string/pick_date"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/notifsFrequency"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/notifsFrequency" />
 
         <Button
@@ -245,13 +245,13 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
+            android:layout_marginEnd="52dp"
             android:onClick="showTimePickerDialog"
             android:text="@string/pick_time"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/btnDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.059"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/btnDate"
             app:layout_constraintTop_toTopOf="@+id/btnDate"
             app:layout_constraintVertical_bias="0.0" />
@@ -271,11 +271,12 @@
             android:id="@+id/txtTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:text="@string/hh_mm"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/txtDate"
             app:layout_constraintEnd_toEndOf="@+id/btnTime"
             app:layout_constraintStart_toStartOf="@+id/btnTime"
-            app:layout_constraintTop_toBottomOf="@+id/btnTime" />
+            app:layout_constraintTop_toTopOf="@+id/txtDate" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
