@@ -1,5 +1,7 @@
 package com.bonniepeng.bloomi;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -8,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -24,21 +28,22 @@ import java.util.Calendar;
 
 public class AddPlant extends AppCompatActivity {
 
-    private TextView txtTitle,txtSciName,txtNickname,txtHeight,txtNotes,edtNameEmpty,edtNicknameEmpty;
+    private TextView txtTitle,txtSciName,txtNickname,txtHeight,txtNotes
+    ,edtNameEmpty,edtNicknameEmpty,txtNotifs;
+    @SuppressLint("StaticFieldLeak")
+    private static TextView txtTime, txtDate;
     private EditText edtName,edtNickname,edtHeight,edtNotes;
     private Spinner notifsFrequency,metric;
-    private CheckBox cbNotifs;
-    private Button addToGarden,pickTime;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private Switch swtchNotifs;
+    private Button addToGarden, btnPickTime, btnPickDate;
     private ImageButton imageButton;
     private static int notifHour, notifMinute;
     private boolean notify, displayEmpty;
 
-    //TODO: add frequency options
-    //TODO: set time differently: allow time to be seen and editted after they set it for a first time
-    // allow time to be seen after they set it
-    // allow toggle between having a time or not
     //TODO: check for all required fields and proper data when clicking add to garden
     //TODO: allow to change image when image button is clicked
+    //TODO: set up database for all ur plants
 
 
     @Override
@@ -49,16 +54,22 @@ public class AddPlant extends AppCompatActivity {
         instantiate();
 
         // SETTING NOTIFS
-        cbNotifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        swtchNotifs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (!cbNotifs.isChecked()){
+                if (!swtchNotifs.isChecked()){
                     notify = false;
-                    pickTime.setVisibility(View.GONE);
+                    btnPickDate.setVisibility(View.GONE);
+                    btnPickTime.setVisibility(View.GONE);
+                    txtDate.setVisibility(View.GONE);
+                    txtTime.setVisibility(View.GONE);
                     notifsFrequency.setVisibility(View.GONE);
                 } else {
                     notify = true;
-                    pickTime.setVisibility(View.VISIBLE);
+                    btnPickDate.setVisibility(View.VISIBLE);
+                    btnPickTime.setVisibility(View.VISIBLE);
+                    txtDate.setVisibility(View.VISIBLE);
+                    txtTime.setVisibility(View.VISIBLE);
                     notifsFrequency.setVisibility(View.VISIBLE);
                 }
             }
@@ -101,9 +112,6 @@ public class AddPlant extends AppCompatActivity {
                 edtNameEmpty.setVisibility(View.VISIBLE);
             }
         }
-
-
-
     }
 
     // LETTING USER PICK THE NOTIFICATION TIME
@@ -122,10 +130,27 @@ public class AddPlant extends AppCompatActivity {
                     DateFormat.is24HourFormat(getActivity()));
         }
 
+        @SuppressLint("SetTextI18n")
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            notifHour = hourOfDay;
-            notifMinute = minute;
+            String ampm = "am";
+            int newHour = hourOfDay;
+            String newMinute = Integer.toString(minute);
+
+            if (hourOfDay>12){
+                newHour-=12;
+                ampm = "pm";
+            } else if (hourOfDay==12){
+                ampm = "pm";
+            } else if (hourOfDay==0){
+                newHour = 12;
+            }
+
+            if (minute<10){
+                newMinute = "0"+minute;
+            }
+
+            txtTime.setText(newHour +" : "+ newMinute+" "+ ampm);
         }
     }
 
@@ -134,6 +159,37 @@ public class AddPlant extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    // PICKING THE NOTIF DATE
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @NotNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        @SuppressLint("SetTextI18n")
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            int newMonth = month;
+            newMonth+=1;
+            txtDate.setText(day+" / "+newMonth+" / "+year);
+        }
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    //INSTANTIATING
     private void instantiate() {
         // TEXTVIEWS
         txtTitle = findViewById(R.id.txtTitle);
@@ -141,6 +197,9 @@ public class AddPlant extends AppCompatActivity {
         txtNickname = findViewById(R.id.txtNickname);
         txtHeight = findViewById(R.id.txtHeight);
         txtNotes = findViewById(R.id.txtNotes);
+        txtNotifs = findViewById(R.id.txtNotifs);
+        txtTime = findViewById(R.id.txtTime);
+        txtDate = findViewById(R.id.txtDate);
         edtNameEmpty = findViewById(R.id.edtNameEmpty);
         edtNicknameEmpty = findViewById(R.id.edtNicknameEmpty);
 
@@ -154,13 +213,14 @@ public class AddPlant extends AppCompatActivity {
         notifsFrequency = findViewById(R.id.notifsFrequency);
         metric = findViewById(R.id.metric);
 
-        // CHECKBOX
-        cbNotifs = findViewById(R.id.cbNotifs);
+        // SWITCH
+        swtchNotifs = findViewById(R.id.swtchNotifs);
 
         // BUTTONS
         addToGarden = findViewById(R.id.btnAddToGarden);
         imageButton = findViewById(R.id.imageButton);
-        pickTime = findViewById(R.id.btnTime);
+        btnPickDate = findViewById(R.id.btnDate);
+        btnPickTime = findViewById(R.id.btnTime);
 
         //BOOLEANS
         displayEmpty = false;
