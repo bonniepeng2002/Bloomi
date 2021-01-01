@@ -3,11 +3,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#F6F6F6"
-    android:fillViewport="true"
-    android:id="@+id/parent">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,7 +44,6 @@
             android:id="@+id/edtPlantType"
             android:layout_width="160dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:ems="10"
             android:hint="@string/cactus"
             android:inputType="textPersonName"
@@ -55,7 +54,6 @@
             android:id="@+id/edtNickname"
             android:layout_width="160dp"
             android:layout_height="47dp"
-            android:layout_marginTop="4dp"
             android:ems="10"
             android:hint="@string/pokey"
             android:inputType="textPersonName"
@@ -112,14 +110,15 @@
             android:id="@+id/imageButton"
             android:layout_width="121dp"
             android:layout_height="127dp"
-            android:layout_marginTop="88dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/edtNickname"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintHorizontal_bias="0.985"
+            app:layout_constraintHorizontal_bias="0.818"
             app:layout_constraintStart_toEndOf="@+id/edtPlantType"
-            app:layout_constraintTop_toBottomOf="@+id/txtPlantType"
-            app:layout_constraintVertical_bias="0.988"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <Spinner
