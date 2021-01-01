@@ -114,12 +114,13 @@
             android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
             android:padding="0dp"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@+id/edtNickname"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintHorizontal_bias="0.818"
             app:layout_constraintStart_toEndOf="@+id/edtPlantType"
             app:srcCompat="@drawable/ic_launcher_background" />
+
 
         <Spinner
             android:id="@+id/metric"

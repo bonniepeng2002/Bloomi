@@ -183,8 +183,6 @@ public class AddPlant extends AppCompatActivity {
     }
 
     // SETTING PICTURE FOR PLANT
-    
-    //TODO: make sure the images from camera roll fit into image button nicely.
 
     // displaying options dialog
     private void selectImage(Context context) {
@@ -238,7 +236,6 @@ public class AddPlant extends AppCompatActivity {
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         imageButton.setImageBitmap(imageBitmap);
                     }
-
                     break;
 
                 // gallery
@@ -262,95 +259,6 @@ public class AddPlant extends AppCompatActivity {
         }
     }
 
-    class btnTakePhotoClicker implements Button.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, RESULT_OK);
-        }
-    }
-
-
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != RESULT_CANCELED) {
-//            switch (requestCode) {
-//                case 0:
-//                    if (resultCode == RESULT_OK && data != null) {
-//                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-//                        imageButton.setImageBitmap(selectedImage);
-//                    }
-//
-//                    break;
-//                case 1:
-//                    if (resultCode == RESULT_OK && data != null) {
-//                        Uri selectedImage = data.getData();
-//                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//                        if (selectedImage != null) {
-//                            Cursor cursor = getContentResolver().query(selectedImage,
-//                                    filePathColumn, null, null, null);
-//                            if (cursor != null) {
-//                                cursor.moveToFirst();
-//
-//                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                                String picturePath = cursor.getString(columnIndex);
-//                                imageButton.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//                                cursor.close();
-//                            }
-//                        }
-//
-//                    }
-//                    break;
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_image_capture, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-//    // ONCE USER SELECTS IMAGE FROM GALLERY
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        //Detects request codes
-//        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-//            Uri selectedImage = data.getData();
-//            //TODO: save this image inside database so we can access it easily later
-//            Bitmap bitmap = null;
-//            try {
-//                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-//                imageButton.setImageURI(selectedImage);
-//
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     // LETTING USER PICK THE NOTIFICATION TIME
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
@@ -416,9 +324,17 @@ public class AddPlant extends AppCompatActivity {
 
         @SuppressLint("SetTextI18n")
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            int newMonth = month;
-            newMonth += 1;
-            txtDate.setText(day + " / " + newMonth + " / " + year);
+            String newDay = Integer.toString(day);
+            String newMonth = Integer.toString(month+1);
+
+            if (day<10){
+                newDay = "0"+newDay;
+            }
+            if (month++<10){
+                newMonth = "0"+newMonth;
+            }
+
+            txtDate.setText(newDay + " / " + newMonth + " / " + year);
         }
     }
 
