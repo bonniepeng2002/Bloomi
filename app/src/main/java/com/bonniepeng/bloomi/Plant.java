@@ -10,20 +10,17 @@ public class Plant {
     private String notes;
     private String waterDays;
     private String waterTime; //string??
-    private Image image;
+    private int id;
 
-    public Plant(String sciName, String nickname, String metric, String height, String notes, String waterDays, String waterTime, Image image) {
-        this.sciName = sciName;
-        this.nickname = nickname;
-        this.metric = metric;
-        this.height = height;
-        this.notes = notes;
-        this.waterDays = waterDays;
-        this.waterTime = waterTime;
-        this.image = image;
+    public int getId() {
+        return id;
     }
 
-    public Plant(String sciName, String nickname, String metric, String height, String notes, String waterDays, String waterTime) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Plant(String sciName, String nickname, String metric, String height, String notes, String waterDays, String waterTime, int id) {
         this.sciName = sciName;
         this.nickname = nickname;
         this.metric = metric;
@@ -31,6 +28,7 @@ public class Plant {
         this.notes = notes;
         this.waterDays = waterDays;
         this.waterTime = waterTime;
+        this.id = id;
     }
 
     public String getSciName() {
@@ -89,11 +87,4 @@ public class Plant {
         this.waterTime = waterTime;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
 }

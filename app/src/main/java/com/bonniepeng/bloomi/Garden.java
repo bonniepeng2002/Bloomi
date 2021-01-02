@@ -23,6 +23,8 @@ import java.util.Objects;
  */
 public class Garden extends Fragment {
 
+    private int id = 0;
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -64,16 +66,17 @@ public class Garden extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView gardenRecycler = Objects.requireNonNull(getView()).findViewById(R.id.gardenRecycler);
+
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity());
+        RecyclerView gardenRecycler = Objects.requireNonNull(getView()).findViewById(R.id.gardenRecycler);
         gardenRecycler.setAdapter(adapter);
         gardenRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         ArrayList<Plant> plants = new ArrayList<>();
-        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
-        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
-        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
-        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
+        while (id<8){
+            id +=1;
+            plants.add(new Plant("a", "b", "c", "d", "e", "f", "g", id));
+        }
 
         adapter.setPlants(plants);
     }
@@ -99,8 +102,5 @@ public class Garden extends Fragment {
 
     }
 
-    public void onPlantClick(){
-        Intent intent = new Intent(getActivity(), PlantCardView.class);
-        startActivity(intent);
-    }
+
 }

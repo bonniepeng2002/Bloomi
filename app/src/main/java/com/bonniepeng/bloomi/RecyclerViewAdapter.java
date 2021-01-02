@@ -1,10 +1,11 @@
 package com.bonniepeng.bloomi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,10 +35,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return holder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.sciName.setText(plants.get(i).getSciName());
-        // set image here when we have diff images
+        viewHolder.txtType.setText(Integer.toString(plants.get(i).getId()));
+        // set image here when we have database
+
+        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PlantCardView.class);
+                intent.putExtra("PLANT_ID", plants.get(i).getId());
+                view.getContext().startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -52,15 +65,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView plantImage;
-        private TextView sciName;
+        private TextView sciName, txtType;
         private CardView parent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
-            plantImage = (ImageView) itemView.findViewById(R.id.plantImage);
             sciName = (TextView) itemView.findViewById(R.id.plantName);
+            txtType = itemView.findViewById(R.id.txtType);
         }
+
     }
 }
