@@ -23,6 +23,16 @@ public class Plant {
         this.image = image;
     }
 
+    public Plant(String sciName, String nickname, String metric, String height, String notes, String waterDays, String waterTime) {
+        this.sciName = sciName;
+        this.nickname = nickname;
+        this.metric = metric;
+        this.height = height;
+        this.notes = notes;
+        this.waterDays = waterDays;
+        this.waterTime = waterTime;
+    }
+
     public String getSciName() {
         return sciName;
     }
