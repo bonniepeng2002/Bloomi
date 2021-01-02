@@ -1,20 +1,16 @@
 package com.bonniepeng.bloomi;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -34,8 +30,10 @@ public class Garden extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Context context;
 
+
+    private boolean expand;
+    private TextView txtName;
 
     public Garden() {
         // Required empty public constructor
@@ -74,10 +72,10 @@ public class Garden extends Fragment {
         gardenRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         ArrayList<Plant> plants = new ArrayList<>();
-        plants.add(new Plant("a","b","c","d","e","f","g"));
-        plants.add(new Plant("a","b","c","d","e","f","g"));
-        plants.add(new Plant("a","b","c","d","e","f","g"));
-        plants.add(new Plant("a","b","c","d","e","f","g"));
+        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
+        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
+        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
+        plants.add(new Plant("a", "b", "c", "d", "e", "f", "g"));
 
         adapter.setPlants(plants);
     }
@@ -88,6 +86,27 @@ public class Garden extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+        instantiate();
+
+    }
+
+    private void instantiate() {
+
+        // BOOLEANS
+        expand = false;
+
+
+    }
+
+    public void onPlantClick(){
+        expand = !expand;
+
+        if (expand){
+            // expand
+        } else {
+            // minimize
         }
     }
 }

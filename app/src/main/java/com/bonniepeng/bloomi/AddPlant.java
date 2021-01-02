@@ -325,13 +325,13 @@ public class AddPlant extends AppCompatActivity {
         @SuppressLint("SetTextI18n")
         public void onDateSet(DatePicker view, int year, int month, int day) {
             String newDay = Integer.toString(day);
-            String newMonth = Integer.toString(month+1);
+            String newMonth = Integer.toString(month + 1);
 
-            if (day<10){
-                newDay = "0"+newDay;
+            if (day < 10) {
+                newDay = "0" + newDay;
             }
-            if (month++<10){
-                newMonth = "0"+newMonth;
+            if (month++ < 10) {
+                newMonth = "0" + newMonth;
             }
 
             txtDate.setText(newDay + " / " + newMonth + " / " + year);

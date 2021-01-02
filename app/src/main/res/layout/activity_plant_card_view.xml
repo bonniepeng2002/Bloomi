@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlantCardView">
+
+    <!--    BIG CARD-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/gardenCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginVertical="20dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="11dp">
+
+            <TextView
+                android:id="@+id/plantName"
+                android:layout_width="332dp"
+                android:layout_height="64dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="13dp"
+                android:text="Plant Name (nickname if none)"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageWrapper" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageWrapper"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:padding="0dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEdit">
+
+                <ImageView
+                    android:id="@+id/plantImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_launcher_background" />
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnEdit"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="69dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="Edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.984"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnBack"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="44dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="X"
+                android:textSize="20sp"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnEdit"
+                app:layout_constraintVertical_bias="0.384" />
+
+            <TextView
+                android:id="@+id/plantNickname"
+                android:layout_width="126dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="8dp"
+                android:text="Nickname"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantName" />
+
+            <TextView
+                android:id="@+id/plantWatering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="Watering Notifications:"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.041"
+                app:layout_constraintStart_toStartOf="@+id/plantName"
+                app:layout_constraintTop_toBottomOf="@+id/plantNickname" />
+
+            <TextView
+                android:id="@+id/plantFrequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Every two weeks"
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantWatering" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="at"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/plantTime"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/plantFrequency"
+                app:layout_constraintTop_toTopOf="@+id/plantFrequency" />
+
+            <TextView
+                android:id="@+id/plantTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="12 : 00 pm"
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/plantNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="12dp"
+                android:text="Next Up:"
+                app:layout_constraintEnd_toStartOf="@+id/plantNextNotif"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantFrequency" />
+
+            <TextView
+                android:id="@+id/plantNextNotif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:text="February 16, 2021 - 3:26 pm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/plantNext"
+                app:layout_constraintTop_toTopOf="@+id/plantNext" />
+
+            <TextView
+                android:id="@+id/plantGrowth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Growth:"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/plantWatering"
+                app:layout_constraintTop_toBottomOf="@+id/plantNext" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantGrowth" />
+
+            <Button
+                android:id="@+id/plantAddMeasurement"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="157dp"
+                android:layout_height="69dp"
+                android:layout_marginTop="8dp"
+                android:text="Add measurement"
+                app:layout_constraintStart_toStartOf="@+id/graph"
+                app:layout_constraintTop_toBottomOf="@+id/graph" />
+
+            <TextView
+                android:id="@+id/plantLastMeasurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Last Measurement:"
+                app:layout_constraintStart_toEndOf="@+id/plantAddMeasurement"
+                app:layout_constraintTop_toTopOf="@+id/plantAddMeasurement" />
+
+            <TextView
+                android:id="@+id/plantMeasurement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="5.4 cm"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/plantLastMeasurement"
+                app:layout_constraintTop_toBottomOf="@+id/plantLastMeasurement" />
+
+            <TextView
+                android:id="@+id/plantOtherNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Other Notes:"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/plantGrowth"
+                app:layout_constraintTop_toBottomOf="@+id/plantAddMeasurement" />
+
+            <TextView
+                android:id="@+id/plantNotes"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="27dp"
+                android:lineSpacingExtra="4sp"
+                android:text="- Place in sunlight \n- Keep away from cats \n- Brag about to friends"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plantOtherNotes" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>
