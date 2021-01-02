@@ -1,7 +1,5 @@
-<p align="center">
-<h1> The Bloomi Development Journey 🌱 </h1><br>
-A summary of everyday's progress! (Dec 30 - ongoing)
-</p>
+<h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
+<p align="center"> A summary of everyday's progress! (Dec 30 - ongoing) </p>
 
 ## Dec 30
 - Started project with Tabs activity
