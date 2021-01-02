@@ -1,2 +1,0 @@
-### The Bloomi Development Journey
-
