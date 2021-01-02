@@ -1,7 +1,7 @@
-### The Bloomi Development Journey 🌱
+# The Bloomi Development Journey 🌱
 A summary of everyday's progress! 
 
-# Dec 30
+## Dec 30
 - Started project with Tabs activity
 - Created a floating action button to add a new plant
 - Generally designed the Add a Plant page (activity_add_plant.xml)
@@ -9,7 +9,7 @@ A summary of everyday's progress!
     - Implemented multiple button OnClick features
     - Made the "watering notifications" content only visible when the user selects the feature
     
-# Dec 31
+## Dec 31
 - Added the first implementations of the Date and Time pickers for the watering notifications (AddPlant.java)
 - Re-did the constraints and finished Activity design (activity_add_plant.xml)
 - Created README.md
@@ -18,7 +18,7 @@ A summary of everyday's progress!
     - Added "!" to the required fields that have been left empty, and made them disappear once the user starts typing in the field
     - Indicates if no Time/Date has been chosen for the watering notifications, if applicable
 
-# Jan 1
+## Jan 1
 - Added the feature to take a photo from the phone's camera to select an image for the plant (AddPlant.java)
 - Displays the image chosen as the plant's avatar
 - Created and finished the second implementations of the Date and Time pickers
@@ -28,6 +28,6 @@ A summary of everyday's progress!
 - Implemented Cardviews for each plant the user adds (Garden.java,  RecyclerViewAdapter.java, garden_item.xml, fragment_garden.xml)
 - Displays all Cardviews in a Recyclerview in the Garden tab
 
-# Jan 2
+## Jan 2
 - Made each Cardview clickable, and brings up the Plant's information in a new Activity (PlantCardView.java)
 - UI design for the above (activity_plant_card_view.xml)
