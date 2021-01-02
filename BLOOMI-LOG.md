@@ -31,3 +31,5 @@ A summary of everyday's progress! (Dec 30 - ongoing)
 ## Jan 2
 - Made each Cardview clickable, and brings up the Plant's information in a new Activity (PlantCardView.java)
 - UI design for the above (activity_plant_card_view.xml)
+- Implemented the back button in PlantCardView.java
+- Opens the respective PlantCardView for the Cardview clicked (when clicking on a plant, the app opens a new activity with the plant in question's info)
