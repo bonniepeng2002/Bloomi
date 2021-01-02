@@ -16,6 +16,7 @@ A summary of everyday's progress!
 - Added the feature to select a plant image from the user's gallery (AddPlant.java)
 - Developed snackbars to indicate any actions the user must take when trying to add a plant, if any
     - Added "!" to the required fields that have been left empty, and made them disappear once the user starts typing in the field
+    - Indicates if no Time/Date has been chosen for the watering notifications, if applicable
 
 # Jan 1
 - Added the feature to take a photo from the phone's camera to select an image for the plant (AddPlant.java)
