@@ -25,9 +25,9 @@ A summary of everyday's progress!
 - Fixed bugs for the display of the notification times and dates
 - Finished developing the Add a Plant activity (AddPlant.java)
 - Began developing the Garden tab (fragment) of the Main Activity (MainActivity.java, Garden.java, fragment_garden.xml)
-
-# Jan 1
 - Implemented Cardviews for each plant the user adds (Garden.java,  RecyclerViewAdapter.java, garden_item.xml, fragment_garden.xml)
 - Displays all Cardviews in a Recyclerview in the Garden tab
+
+# Jan 2
 - Made each Cardview clickable, and brings up the Plant's information in a new Activity (PlantCardView.java)
 - UI design for the above (activity_plant_card_view.xml)
