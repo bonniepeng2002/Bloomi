@@ -1,12 +1,20 @@
 package com.bonniepeng.bloomi;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -41,10 +49,22 @@ public class PlantCardView extends AppCompatActivity {
 
         plantType.setText(Integer.toString(plantId));
 
+        // GO BACK
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        // ADD A MEASUREMENT
+        plantAddMeasurement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomDialog cdd = new CustomDialog(PlantCardView.this);
+                InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
+                cdd.getWindow().setBackgroundDrawable(inset);
+                cdd.show();
             }
         });
 

@@ -1,5 +1,7 @@
+<center>
 # The Bloomi Development Journey 🌱
 A summary of everyday's progress! (Dec 30 - ongoing)
+</center>
 
 ## Dec 30
 - Started project with Tabs activity
@@ -33,4 +35,10 @@ A summary of everyday's progress! (Dec 30 - ongoing)
 - UI design for the above (activity_plant_card_view.xml)
 - Gave each plant a unique ID
 - Implemented the back button in PlantCardView.java
+- Made tweaks on UI design
+- Created a custom, rounded corner Alert Dialog to enter in a new plant measurement (PlantCardView.java)
+    - Added "OK" and "Cancel" buttons to the Alert Dialog
+    - Allows user to choose metric again (will convert into a uniform metric to use for graphs)
+    - Notifies user if field is left empty
+    - Updates the "Last Measurement:" TextView accordingly
 
