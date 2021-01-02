@@ -1,13 +1,14 @@
 package com.bonniepeng.bloomi;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.jjoe64.graphview.GraphView;
 
@@ -16,19 +17,19 @@ public class PlantCardView extends AppCompatActivity {
     // TODO: make graph of growth from data
     // TODO: setText for plantFrequency, plantTime, plantMeasurement, plantNextNotif, plantNotes, plantName, plantType, and plantImage
     //  based on database info
-    // TODO: add onclick for btn back
     // TODO: implement "edit" activity
     // TODO: add onclick for plant add measurement
 
 
     private TextView plantName, plantType, plantWatering, plantFrequency, at,
-    plantTime, plantNext, plantNextNotif, plantGrowth, plantLastMeasurement, plantMeasurement,
-    plantOtherNotes, plantNotes;
+            plantTime, plantNext, plantNextNotif, plantGrowth, plantLastMeasurement, plantMeasurement,
+            plantOtherNotes, plantNotes;
     private Button btnEdit, btnBack, plantAddMeasurement;
     private CardView imageWrapper;
     private ImageView plantImage;
     private GraphView graph;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,9 @@ public class PlantCardView extends AppCompatActivity {
 
         instantiate();
 
-        int plantId = getIntent().getIntExtra("PLANT_ID",0);
+        int plantId = getIntent().getIntExtra("PLANT_ID", 0);
+
+        plantType.setText(Integer.toString(plantId));
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
