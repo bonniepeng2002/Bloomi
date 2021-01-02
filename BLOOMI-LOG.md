@@ -1,5 +1,5 @@
 # The Bloomi Development Journey 🌱
-A summary of everyday's progress! 
+A summary of everyday's progress! (Dec 30 - ongoing)
 
 ## Dec 30
 - Started project with Tabs activity
