@@ -1,5 +1,6 @@
 package com.bonniepeng.bloomi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +23,11 @@ import java.util.Objects;
  */
 public class Garden extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-
-    private boolean expand;
-    private TextView txtName;
 
     public Garden() {
         // Required empty public constructor
@@ -47,7 +41,6 @@ public class Garden extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Garden.
      */
-    // TODO: Rename and change types and number of parameters
     public static Garden newInstance(String param1, String param2) {
         Garden fragment = new Garden();
         Bundle args = new Bundle();
@@ -56,6 +49,11 @@ public class Garden extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+    // BLOOMI'S OBJECTS
+
+    // METHODS
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,23 +88,19 @@ public class Garden extends Fragment {
 
         instantiate();
 
+        //  TODO: on card click, call onPlantClick()
+
     }
 
     private void instantiate() {
 
-        // BOOLEANS
-        expand = false;
+
 
 
     }
 
     public void onPlantClick(){
-        expand = !expand;
-
-        if (expand){
-            // expand
-        } else {
-            // minimize
-        }
+        Intent intent = new Intent(getActivity(), PlantCardView.class);
+        startActivity(intent);
     }
 }

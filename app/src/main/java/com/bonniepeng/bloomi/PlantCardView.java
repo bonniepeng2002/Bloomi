@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 public class PlantCardView extends AppCompatActivity {
 
+    // TODO: implement "edit" activity
+    // TODO: make graph of growth from data
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

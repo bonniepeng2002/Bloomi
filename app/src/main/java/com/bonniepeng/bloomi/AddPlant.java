@@ -115,7 +115,7 @@ public class AddPlant extends AppCompatActivity {
                             .show();
                 } else {
                     //TODO: change this for when we use databases
-                    Snackbar.make(parent, "SUCCESS", Snackbar.LENGTH_LONG)
+                    Snackbar.make(parent, "Added to Garden!", Snackbar.LENGTH_LONG)
                             .show();
 //                    Plant newPlant = new Plant(
 //                            edtName.getText().toString(),
@@ -127,6 +127,9 @@ public class AddPlant extends AppCompatActivity {
 //                            Integer.toString(notifHour)+":"+Integer.toString(notifMinute),
 //                            imageButton.
 //                    )
+
+                    // TODO: go to garden page (go back and navivate to other tab
+
                 }
             }
 
