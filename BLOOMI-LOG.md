@@ -1,7 +1,7 @@
-<center>
+<p align="center">
 # The Bloomi Development Journey 🌱
 A summary of everyday's progress! (Dec 30 - ongoing)
-</center>
+</p>
 
 ## Dec 30
 - Started project with Tabs activity
