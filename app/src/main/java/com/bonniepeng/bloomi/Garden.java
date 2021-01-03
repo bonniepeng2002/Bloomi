@@ -1,11 +1,9 @@
 package com.bonniepeng.bloomi;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,8 +51,6 @@ public class Garden extends Fragment {
     }
 
 
-    // BLOOMI'S OBJECTS
-
     // METHODS
 
     @Override
@@ -73,8 +69,8 @@ public class Garden extends Fragment {
         gardenRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         ArrayList<Plant> plants = new ArrayList<>();
-        while (id<8){
-            id +=1;
+        while (id < 8) {
+            id += 1;
             plants.add(new Plant("a", "b", "c", "d", "e", "f", "g", id));
         }
 
@@ -91,13 +87,9 @@ public class Garden extends Fragment {
 
         instantiate();
 
-        //  TODO: on card click, call onPlantClick()
-
     }
 
     private void instantiate() {
-
-
 
 
     }

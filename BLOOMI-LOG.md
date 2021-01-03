@@ -1,11 +1,9 @@
-<center>
-# The Bloomi Development Journey 🌱
-A summary of everyday's progress! (Dec 30 - ongoing)
-</center>
+<h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
+<p align="center"> A summary of everyday's progress! (Dec 30 - ongoing) </p>
 
 ## Dec 30
-- Started project with Tabs activity
-- Created a floating action button to add a new plant
+- Started the Bloomi project with Tabs activity
+- Connected the floating action button to the Add a New Plant Activity
 - Generally designed the Add a Plant page (activity_add_plant.xml)
 - Began to develop the Add a Plant Activity (AddPlant.java)
     - Implemented multiple button OnClick features
@@ -40,5 +38,4 @@ A summary of everyday's progress! (Dec 30 - ongoing)
     - Added "OK" and "Cancel" buttons to the Alert Dialog
     - Allows user to choose metric again (will convert into a uniform metric to use for graphs)
     - Notifies user if field is left empty
-    - Updates the "Last Measurement:" TextView accordingly
 

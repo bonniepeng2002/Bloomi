@@ -10,15 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.Toast;
 
 public class CustomDialog extends Dialog {
 
     public Activity activity;
     public Dialog dialog;
     public Button btnOk, btnCancel;
-    private TextView plantMeasurement, txtEmpty;
+    private TextView txtEmpty;
     private Spinner metric;
     private EditText newMeasurement;
 
@@ -34,9 +33,9 @@ public class CustomDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.add_measurement_dialog);
 
+        // INSTANTIATING
         btnOk = findViewById(R.id.btnOk);
         btnCancel = findViewById(R.id.btnCancel);
-        plantMeasurement = findViewById(R.id.plantMeasurement);
         metric = findViewById(R.id.newMetric);
         newMeasurement = findViewById(R.id.edtNewMeasurement);
         txtEmpty = findViewById(R.id.txtEmpty);
@@ -50,7 +49,9 @@ public class CustomDialog extends Dialog {
                     txtEmpty.setVisibility(View.VISIBLE);
                 } else {
                     // TODO: add new data to database
-                    plantMeasurement.setText(newMeasurement.getText().toString() + " " + metric.getSelectedItem().toString());
+                    // TODO: make sure the data changes in PlantCardView.java too
+                    Toast.makeText(activity, "success for now", Toast.LENGTH_SHORT).show();
+                    dismiss();
                 }
             }
         });

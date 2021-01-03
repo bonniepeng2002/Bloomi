@@ -52,7 +52,6 @@ public class AddPlant extends AppCompatActivity {
     private ImageButton imageButton;
     private boolean notify, displayEmpty;
     private ScrollView parent;
-    private String Document_img1 = "";
 
 
     //TODO: check for all required fields and proper data when clicking add to garden
@@ -189,17 +188,17 @@ public class AddPlant extends AppCompatActivity {
 
     // displaying options dialog
     private void selectImage(Context context) {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        final CharSequence[] options = {"Take a Photo", "Choose from Gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Add a picture");
+        builder.setTitle("Add a Picture");
 
         builder.setItems(options, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int item) {
 
-                if (options[item].equals("Take Photo")) {
+                if (options[item].equals("Take a Photo")) {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     try {
                         startActivityForResult(takePictureIntent, 0);
@@ -308,6 +307,7 @@ public class AddPlant extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+
     // PICKING THE NOTIF DATE
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -345,6 +345,7 @@ public class AddPlant extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
+
 
     //INSTANTIATING
     private void instantiate() {

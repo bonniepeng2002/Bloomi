@@ -6,7 +6,7 @@
     android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FAFAFA"
+    android:background="#FEFEFE"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout

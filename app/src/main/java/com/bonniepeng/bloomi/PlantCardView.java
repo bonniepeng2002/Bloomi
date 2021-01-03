@@ -1,20 +1,15 @@
 package com.bonniepeng.bloomi;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -22,12 +17,14 @@ import com.jjoe64.graphview.GraphView;
 
 public class PlantCardView extends AppCompatActivity {
 
+    // TODO: start database tutorial!!!
+
+
     // TODO: make graph of growth from data
     // TODO: setText for plantFrequency, plantTime, plantMeasurement, plantNextNotif, plantNotes, plantName, plantType, and plantImage
     //  based on database info
     // TODO: implement "edit" activity
     // TODO: add onclick for plant add measurement
-
 
     private TextView plantName, plantType, plantWatering, plantFrequency, at,
             plantTime, plantNext, plantNextNotif, plantGrowth, plantLastMeasurement, plantMeasurement,
@@ -101,4 +98,5 @@ public class PlantCardView extends AppCompatActivity {
         graph = findViewById(R.id.graph);
 
     }
+
 }
