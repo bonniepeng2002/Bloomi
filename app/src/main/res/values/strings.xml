@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Bloomi</string>
+    <string name="tab_text_1">Dashboard</string>
+    <string name="tab_text_2">Garden</string>
+    <string name="cactus">Cactus…</string>
+    <string name="pokey">Pokey…</string>
+    <string name="add_to_garden">Add to Garden</string>
+    <string name="april">April…</string>
+    <string name="plant_type">Plant Type:</string>
+    <string name="plant_nickname">Plant Nickname:</string>
+    <string name="watering_notifications">Watering Notifications?</string>
+    <string name="height_hint">5.4</string>
+    <string name="current_height">Current Height:</string>
+    <string name="other_notes">Other Notes:</string>
+    <string name="notes_hint">- Place in sunlight \n- Remember to love</string>
+    <string name="add_a_plant">Add a Plant</string>
+    <string name="pick_time">Pick a Time</string>
+    <string name="nameEmpty">!</string>
+    <string name="pick_date">pick a date</string>
+    <string name="dd_mm_yy">dd / mm / yyyy</string>
+    <string name="hh_mm">hh : mm</string>
+    <array name="metrics">
+        <item>feet</item>
+        <item>meters</item>
+        <item>inches</item>
+        <item>cm</item>
+        <item>mm</item>
+    </array>
+    <array name="frequency">
+        <item>Once</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Every two weeks</item>
+    </array>
+
+    <string name="edit">Edit</string>
+    <string name="x">X</string>
+    <string name="watering_notifs">Watering Notifications:</string>
+    <string name="at">at</string>
+    <string name="next_up">Next Up:</string>
+    <string name="growth">Growth:</string>
+    <string name="add_measurement">Add a measurement</string>
+    <string name="last_measurement">Last Measurement:</string>
+
+</resources>
