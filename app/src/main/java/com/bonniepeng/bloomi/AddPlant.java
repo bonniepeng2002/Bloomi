@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -29,15 +30,32 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 public class AddPlant extends AppCompatActivity {
 
@@ -52,10 +70,15 @@ public class AddPlant extends AppCompatActivity {
     private ImageButton imageButton;
     private boolean notify, displayEmpty;
     private ScrollView parent;
+    private FirebaseAuth mAuth;
+    private static int year;
+    private static int month;
+    private static int day;
+    private static int hour;
+    private static int minute;
 
-
-    //TODO: check for all required fields and proper data when clicking add to garden
-    // id, sci name, nickname, image, notif date, notif time, notif freq, other notes, growth measurement, growth date, growth metric,
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -87,15 +110,11 @@ public class AddPlant extends AppCompatActivity {
             }
         });
 
-        // SETTING IMAGE - opening the gallery
+        // SETTING IMAGE
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage(AddPlant.this);
-
-//                startActivityForResult(new Intent
-//                                (Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
-//                        GET_FROM_GALLERY);
             }
         });
 
@@ -115,23 +134,70 @@ public class AddPlant extends AppCompatActivity {
                     Snackbar.make(parent, "Please set a notification time.", Snackbar.LENGTH_LONG)
                             .show();
                 } else {
-                    //TODO: change this for when we use databases
+                    // ADD TO DATABASE
+                    Map<String, Object> plant = new HashMap<>();
+                    plant.put("userID", currentUser.getUid());
+                    plant.put("sciName", edtName.getText().toString());
+                    plant.put("plantID", getNewID());
+                    plant.put("otherNotes", edtNotes.getText().toString());
+                    plant.put("notif", notify);
+                    if (notify) {
+                        plant.put("notifYear", year);
+                        plant.put("notifMonth", month);
+                        plant.put("notifDay", day);
+                        plant.put("notifHour", hour);
+                        plant.put("notifMinute", minute);
+                        plant.put("notifFrequency", notifsFrequency.getSelectedItem().toString());
+                    }
+                    plant.put("nickname", edtNickname.getText().toString());
+                    // TODO: IMAGE AAAAh
+                    plant.put("growthMeasurement", edtHeight.getText());
+                    plant.put("growthMetric", metric.getSelectedItem().toString());
+                    plant.put("growthDate",
+                            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+
+                    db.collection("plants").add(plant)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("ADD PLANT", "Error adding document", e);
+                                }
+                            });
+
+
                     Snackbar.make(parent, "Added to Garden!", Snackbar.LENGTH_LONG)
                             .show();
-//                    Plant newPlant = new Plant(
-//                            edtName.getText().toString(),
-//                            edtNickname.getText().toString(),
-//                            metric.getSelectedItem().toString(),
-//                            edtHeight.getText().toString(),
-//                            edtNotes.getText().toString(),
-//                            notifsFrequency.getSelectedItem().toString(),
-//                            Integer.toString(notifHour)+":"+Integer.toString(notifMinute),
-//                            imageButton.
-//                    )
 
-                    // TODO: go to garden page (go back and navivate to other tab
+                    finish();
 
                 }
+            }
+
+            private int getNewID() {
+                final int[] count = {0};
+
+                db.collection("plants").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                        count[0]++;
+                                    }
+                                } else {
+                                    Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+                return count[0]++;
             }
 
             // EMPTY NAMES
@@ -246,17 +312,14 @@ public class AddPlant extends AppCompatActivity {
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
                         Uri selectedImage = data.getData();
-                        //TODO: save this image inside database so we can access it easily later
                         Bitmap bitmap = null;
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                             imageButton.setImageURI(selectedImage);
 
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-
                     }
                     break;
             }
@@ -272,8 +335,8 @@ public class AddPlant extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            hour = c.get(Calendar.HOUR_OF_DAY);
+            minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -319,9 +382,9 @@ public class AddPlant extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
@@ -387,5 +450,9 @@ public class AddPlant extends AppCompatActivity {
 
         // LAYOUTS
         parent = findViewById(R.id.parent);
+
+        // FIREBASE
+        mAuth = FirebaseAuth.getInstance();
+
     }
 }

@@ -57,12 +57,20 @@
     - let me pat myself on the back for this one... I had a simple error that went completely unnoticed by both
     the system and myself :') spent 2 hours debugging only to realize I had to move 2 lines of code :')
     - Had to re-get the user's input into the username and password EditTexts once the log in button was clicked!! Lesson well learned...
+- Switch from MySQL to Firebase! 
+- Implemented Firebase Authorizations with the Signup and Login activities
+    - Signup:
+        - email must not be already used
+        - email must be correctly formatted
+        - passwords must match
+        - password must be >6 characters in length
+    - Login:
+- if sign up authorizations fail, app alerts user where the error was, and the alert disappears
+when the field is correctly formatted again 
     
 ## TODO:
 - set up notifications based on the times indicated by the user
-- link the login page to the main activity 
-    - only display login page the first time the user uses the app 
-- for sign up, add the users data to the db
+- only display login page the first time the user uses the app 
 - make edit plant activity that's connected to db
 - connect activity_add_plant to db
 - make dashboard based on db
