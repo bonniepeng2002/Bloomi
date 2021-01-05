@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".ui.login.LoginActivity">
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/txtWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:text="Welcome to"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtBloomi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:letterSpacing=".2"
+        android:text="Bloomi"
+        android:textAllCaps="true"
+        android:textColor="@color/purple_500"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
+
+    <EditText
+        android:id="@+id/edtSUEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/txtEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txtEmail"
+        app:layout_constraintTop_toTopOf="@+id/txtEmail"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <TextView
+        android:id="@+id/txtPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Password:"
+        android:textColor="@color/purple_500"
+        app:layout_constraintEnd_toEndOf="@+id/txtEmail"
+        app:layout_constraintTop_toTopOf="@+id/edtSUPass" />
+
+    <EditText
+        android:id="@+id/edtSUPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/edtSUEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtSUEmail" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="80dp"
+        android:text="Email:"
+        android:textColor="@color/purple_500"
+        app:layout_constraintEnd_toStartOf="@+id/edtSUEmail"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtBloomi" />
+
+    <Button
+        android:id="@+id/btnSUSignUp"
+        android:layout_width="136dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:text="log in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSUPass" />
+
+    <TextView
+        android:id="@+id/txtOr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="or"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSignUp"
+        app:layout_constraintEnd_toStartOf="@+id/btnSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnSUSignUp"
+        app:layout_constraintTop_toTopOf="@+id/btnSignUp" />
+
+    <Button
+        android:id="@+id/btnSignUp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnSUSignUp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txtOr"
+        app:layout_constraintTop_toBottomOf="@+id/btnSUSignUp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/falseEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="!"
+        android:textColor="#F44336"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edtSUEmail"
+        app:layout_constraintStart_toEndOf="@+id/edtSUEmail"
+        app:layout_constraintTop_toTopOf="@+id/edtSUEmail" />
+
+    <TextView
+        android:id="@+id/falsePass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="!"
+        android:textColor="#F44336"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/edtSUPass"
+        app:layout_constraintStart_toEndOf="@+id/edtSUPass"
+        app:layout_constraintTop_toTopOf="@+id/edtSUPass" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

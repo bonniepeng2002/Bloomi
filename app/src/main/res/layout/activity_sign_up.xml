@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".ui.login.LoginActivity">
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/txtBloomi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:letterSpacing=".2"
+        android:text="Bloomi"
+        android:textAllCaps="true"
+        android:textColor="@color/purple_500"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:text="Sign Up"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/txtBloomi"
+        app:layout_constraintTop_toBottomOf="@+id/txtBloomi" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSignUp"
+        app:layout_constraintVertical_bias="0.0">
+
+        <EditText
+            android:id="@+id/edtSUEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+        <TextView
+            android:id="@+id/txtPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Enter your password:"
+            android:textColor="@color/purple_500"
+            app:layout_constraintStart_toStartOf="@+id/edtSUEmail"
+            app:layout_constraintTop_toBottomOf="@+id/edtSUEmail" />
+
+        <EditText
+            android:id="@+id/edtSUPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/txtPass"
+            app:layout_constraintTop_toBottomOf="@+id/txtPass" />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter your email:"
+            android:textColor="@color/purple_500"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/txtSURePass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Re-enter your password:"
+            android:textColor="@color/purple_500"
+            app:layout_constraintStart_toStartOf="@+id/edtSUPass"
+            app:layout_constraintTop_toBottomOf="@+id/edtSUPass" />
+
+        <EditText
+            android:id="@+id/edtSUPass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSURePass" />
+
+        <Button
+            android:id="@+id/btnSUSignUp"
+            android:layout_width="136dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="55dp"
+            android:text="sign up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtSUPass2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/emailInvalid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textColor="#F44336"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/edtSUEmail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edtSUEmail"
+            app:layout_constraintTop_toTopOf="@+id/edtSUEmail" />
+
+        <TextView
+            android:id="@+id/passInvalid1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textColor="#F44336"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/edtSUPass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edtSUPass"
+            app:layout_constraintTop_toTopOf="@+id/edtSUPass" />
+
+        <TextView
+            android:id="@+id/passInvalid2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!"
+            android:textColor="#F44336"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/edtSUPass2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edtSUPass2"
+            app:layout_constraintTop_toTopOf="@+id/edtSUPass2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

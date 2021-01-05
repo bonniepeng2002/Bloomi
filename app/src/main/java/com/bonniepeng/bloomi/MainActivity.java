@@ -13,7 +13,6 @@ import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO: learn about and create database for your plants
     //TODO: make dashboard
     //TODO: make garden
     //TODO: make notifications for watering for the app

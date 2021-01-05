@@ -55,6 +55,8 @@ public class AddPlant extends AppCompatActivity {
 
 
     //TODO: check for all required fields and proper data when clicking add to garden
+    // id, sci name, nickname, image, notif date, notif time, notif freq, other notes, growth measurement, growth date, growth metric,
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

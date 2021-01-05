@@ -39,3 +39,13 @@
     - Allows user to choose metric again (will convert into a uniform metric to use for graphs)
     - Notifies user if field is left empty
 
+## Jan 4
+- Created the Bloomi database in MySQL
+    - added a plant_data table, where all the data about each plant is stored
+    - added a users table, storing the login information for each user
+- Created the log in activity page with an option to sign up
+    - email must exist
+    - password must match password in database
+- Developed the sign up page
+    - the two passwords must match
+    - email must not be already used
