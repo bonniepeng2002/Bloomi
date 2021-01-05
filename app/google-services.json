@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "725806218462",
+    "project_id": "bloomi-81f41",
+    "storage_bucket": "bloomi-81f41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725806218462:android:d5b874ff773e8b68c3d64f",
+        "android_client_info": {
+          "package_name": "com.bonniepeng.bloomi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725806218462-75mopuq0bgubfqkmftlgdaicef5hf33s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bonniepeng.bloomi",
+            "certificate_hash": "e97d4944bf2cb05b5f1d2a8bd083524e51cb9d12"
+          }
+        },
+        {
+          "client_id": "725806218462-5imr9gpn30v1l6pqa5d137re9b1bnkr5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZuKxfp6hUh5YJFBLRPSF2wF2k6y4m84o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725806218462-5imr9gpn30v1l6pqa5d137re9b1bnkr5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

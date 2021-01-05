@@ -49,3 +49,38 @@
 - Developed the sign up page
     - the two passwords must match
     - email must not be already used
+    
+## Jan 5
+- Linked the users table in the Bloomi database to LoginActivity.java by developing BackgroundWorker.java
+- Edited the UI of activity_login.xml and activity_sign_up.xml
+- Added email and password verification with the data in the bloomi database
+    - let me pat myself on the back for this one... I had a simple error that went completely unnoticed by both
+    the system and myself :') spent 2 hours debugging only to realize I had to move 2 lines of code :')
+    - Had to re-get the user's input into the username and password EditTexts once the log in button was clicked!! Lesson well learned...
+    
+## TODO:
+- set up notifications based on the times indicated by the user
+- link the login page to the main activity 
+    - only display login page the first time the user uses the app 
+- for sign up, add the users data to the db
+- make edit plant activity that's connected to db
+- connect activity_add_plant to db
+- make dashboard based on db
+- make logo
+- make settings menu activity 
+    - logout
+    - notifications
+    - bug reports
+    - contact
+    - about
+    - permissions
+- research and apply UI design principles 
+- testing app 
+    - database synchronization
+    - deleting
+    - editing
+    - adding
+    - logout
+    - login
+    - signup
+    - notifications
