@@ -1,7 +1,7 @@
 <h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
 <p align="center"> A summary of everyday's progress! (Dec 30 - ongoing) </p>
 
-## Dec 30
+### Dec 30
 - Started the Bloomi project with Tabs activity
 - Connected the floating action button to the Add a New Plant Activity
 - Generally designed the Add a Plant page (activity_add_plant.xml)
@@ -9,7 +9,7 @@
     - Implemented multiple button OnClick features
     - Made the "watering notifications" content only visible when the user selects the feature
     
-## Dec 31
+### Dec 31
 - Added the first implementations of the Date and Time pickers for the watering notifications (AddPlant.java)
 - Re-did the constraints and finished Activity design (activity_add_plant.xml)
 - Created README.md
@@ -77,21 +77,25 @@ when the field is correctly formatted again
     - everything actually works!!!!!
 - On successful Add Plant, snackbar is displayed for 1.5s before going back to Garden
 - User is now kept logged in once they log in once
+
+## Jan 6
+- Added a Splash Screen for the app 
+    - Activated on launch
+    - Determines if the user needs to log in or if the user is already signed in
+    - Moves user to appropriate page
+- Created settings menu
+    - user can change email, password, and log out 
+    - user can toggle notifications
+    - user can send feedback / bug reports
+    - user can learn more about the app
+- Inflated the menu option to be ON THE SAME actionbar as the app title!!
     
 ## TODO:
 - create more error types for logging in: user does not exist, incorrect password
 - set up notifications based on the times indicated by the user
-- make login page disappear faster since user is already logged in
-- when signing up, passwords must match
+- redesign Add Plant activity to look like Plant Card View 
 - make edit plant activity that's connected to db
 - make dashboard based on db
-- make settings menu activity 
-    - logout
-    - notifications
-    - bug reports
-    - contact
-    - about
-    - permissions
 - make logo
 - research and apply UI design principles 
 - testing app 
@@ -103,3 +107,4 @@ when the field is correctly formatted again
     - login
     - signup
     - notifications
+- When app is finished, remove <intent-filter> tag from all activities in Manifest.xml EXCEPT FOR splash activity

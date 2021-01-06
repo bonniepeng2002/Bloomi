@@ -60,6 +60,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddPlant extends AppCompatActivity {
 
@@ -88,7 +89,7 @@ public class AddPlant extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
         instantiate();
 
         // SETTING NOTIFS

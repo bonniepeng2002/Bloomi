@@ -15,16 +15,15 @@ import androidx.cardview.widget.CardView;
 
 import com.jjoe64.graphview.GraphView;
 
-public class PlantCardView extends AppCompatActivity {
+import java.util.Objects;
 
-    // TODO: start database tutorial!!!
+public class PlantCardView extends AppCompatActivity {
 
 
     // TODO: make graph of growth from data
     // TODO: setText for plantFrequency, plantTime, plantMeasurement, plantNextNotif, plantNotes, plantName, plantType, and plantImage
     //  based on database info
     // TODO: implement "edit" activity
-    // TODO: add onclick for plant add measurement
 
     private TextView plantName, plantType, plantWatering, plantFrequency, at,
             plantTime, plantNext, plantNextNotif, plantGrowth, plantLastMeasurement, plantMeasurement,
@@ -41,6 +40,7 @@ public class PlantCardView extends AppCompatActivity {
         setContentView(R.layout.activity_plant_card_view);
 
         instantiate();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         int plantId = getIntent().getIntExtra("PLANT_ID", 0);
 

@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        android:id="@+id/settingsNotifs"
+        android:visibility="visible"
+        app:key="notifs"
+        app:title="Push Notifications" />
+
+</PreferenceScreen>

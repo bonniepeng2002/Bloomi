@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="account_category"
+        app:title="Account Settings">
+
+        <Preference
+            app:fragment="com.bonniepeng.bloomi.SettingsActivity$MessagesFragment"
+            app:key="CEmail"
+            app:title="Change Email" />
+
+        <Preference
+            app:fragment="com.bonniepeng.bloomi.SettingsActivity$MessagesFragment"
+            app:key="RPass"
+            app:title="Reset Password" />
+
+        <Preference
+            app:fragment="com.bonniepeng.bloomi.SettingsActivity$MessagesFragment"
+            app:key="LogOut"
+            app:title="Log Out" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="others_category"
+        app:title="">
+
+        <SwitchPreferenceCompat
+            app:key="notifs"
+            app:title="Push Notifications"
+            app:icon="@drawable/ic_notifs"/>
+
+        <Preference
+            app:key="feedback"
+            app:title="Send feedback"
+            app:icon="@drawable/ic_feedback"
+            app:summary="Report technical issues or suggest new features"/>
+
+        <Preference
+            app:key="about"
+            app:title="About Bloomi"
+            app:summary="About the app"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
