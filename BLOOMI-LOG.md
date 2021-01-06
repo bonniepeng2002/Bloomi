@@ -73,6 +73,9 @@ when the field is correctly formatted again
     - image path in storage is added with the plant data
 - Bug after bug after bug today :'')))
     - IT WORKED!!
+    - everything actually works!!!!!
+- On successful Add Plant, snackbar is displayed for 1.5s before going back to Garden
+- User is now kept logged in once they log in once
     
 ## TODO:
 - set up notifications based on the times indicated by the user

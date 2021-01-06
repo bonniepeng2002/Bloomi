@@ -2,8 +2,10 @@ package com.bonniepeng.bloomi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         instantiate();
+        Log.i("LOGIN", String.valueOf(mAuth.getCurrentUser()));
 
         //TABS
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -50,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     private void instantiate() {
@@ -59,5 +60,23 @@ public class MainActivity extends AppCompatActivity {
 
         // FIREBASE
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    // CHECK IF USER NEEDS TO LOG IN
+    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+            if (currentUser == null) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(authStateListener);
     }
 }

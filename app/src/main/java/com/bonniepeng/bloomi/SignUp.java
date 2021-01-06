@@ -95,7 +95,7 @@ public class SignUp extends AppCompatActivity {
             }
 
             private void invalidemail(boolean b) {
-                if (b){
+                if (b) {
                     invalidEmail.setVisibility(View.VISIBLE);
                 }
 

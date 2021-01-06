@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -103,18 +102,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // CHECKING IF USER IS ALREADY SIGNED IN
+
+    FirebaseAuth.AuthStateListener authStateListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser != null) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    };
+
     @Override
     protected void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        mAuth.addAuthStateListener(authStateListener);
+    }
 
-        if (currentUser != null) {
-            Toast.makeText(this, "Already signed in!", Toast.LENGTH_SHORT).show();
-            // TODO: redirect to user's dashboard
-        } else {
-            Toast.makeText(this, "Not yet signed in.", Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(authStateListener);
     }
 
 }

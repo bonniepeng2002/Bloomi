@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,18 +36,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -63,7 +60,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 public class AddPlant extends AppCompatActivity {
 
@@ -145,12 +141,12 @@ public class AddPlant extends AppCompatActivity {
                     Map<String, Object> plant = new HashMap<>();
                     plant.put("userID", currentUser.getUid());
                     plant.put("sciName", edtName.getText().toString());
-                    plant.put("plantID", getNewID());
+//                    plant.put("plantID", getNewID());
                     plant.put("otherNotes", edtNotes.getText().toString());
                     plant.put("notif", notify);
                     if (notify) {
                         plant.put("notifYear", notifYear);
-                        plant.put("notifMonth", notifMonth);
+                        plant.put("notifMonth", notifMonth); // the raw data is month number -1 (april is 3)
                         plant.put("notifDay", notifDay);
                         plant.put("notifHour", notifHour);
                         plant.put("notifMinute", notifMinute);
@@ -187,7 +183,12 @@ public class AddPlant extends AppCompatActivity {
                                     Log.d("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
                                     Snackbar.make(view, "Added to Garden!", Snackbar.LENGTH_LONG)
                                             .show();
-                                    finish();
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        public void run() {
+                                            finish();
+                                        }
+                                    }, 1500);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -264,25 +265,25 @@ public class AddPlant extends AppCompatActivity {
 
 
     // SETTING PLANT ID
-    private int getNewID() {
-        final int[] count = {0};
-
-        db.collection("plants").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                count[0]++;
-                            }
-                        } else {
-                            Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        return count[0]++;
-    }
+//    private int getNewID() {
+//        int[] count = {0};
+//
+//        db.collection("plants").get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                                count[0]++;
+//                            }
+//                        } else {
+//                            Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//        return count[0]++;
+//    }
 
 
     // EMPTY NAMES
