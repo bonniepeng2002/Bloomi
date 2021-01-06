@@ -56,42 +56,47 @@ public class SignUp extends AppCompatActivity {
                 invalidEmail.setVisibility(View.GONE);
 
                 // creating user
-                // from Firebase's Docs
-                mAuth.createUserWithEmailAndPassword(email, pass1)
-                        .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign up success
-                                    Log.w(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                if (pass1.equals(pass2)) {
+                    // from Firebase's Docs
+                    mAuth.createUserWithEmailAndPassword(email, pass1)
+                            .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign up success
+                                        Log.w(TAG, "createUserWithEmail:success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
 
-                                    // Go to Home
-                                    Intent intent = new Intent(SignUp.this, MainActivity.class);
-                                    startActivity(intent);
+                                        // Go to Home
+                                        Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                        startActivity(intent);
 
-                                } else {
-                                    try {
-                                        throw Objects.requireNonNull(task.getException());
+                                    } else {
+                                        try {
+                                            throw Objects.requireNonNull(task.getException());
 
-                                    } catch (FirebaseAuthWeakPasswordException e) {
-                                        Snackbar.make(view, "Password must have at least 6 characters.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                        invalidPass(true);
+                                        } catch (FirebaseAuthWeakPasswordException e) {
+                                            Snackbar.make(view, "Password must have at least 6 characters.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                            invalidPass(true);
 
-                                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                                        Snackbar.make(view, "Please enter a valid email.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                        invalidemail(true);
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            Snackbar.make(view, "Please enter a valid email.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                            invalidemail(true);
 
-                                    } catch (FirebaseAuthUserCollisionException e) {
-                                        Snackbar.make(view, "User has already registered.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                        invalidemail(true);
+                                        } catch (FirebaseAuthUserCollisionException e) {
+                                            Snackbar.make(view, "User has already registered.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                            invalidemail(true);
 
-                                    } catch (Exception e) {
-                                        Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                                        } catch (Exception e) {
+                                            Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                } else {
+                    Snackbar.make(view, "Passwords must match.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                    invalidPass(true);
+                }
             }
 
             private void invalidemail(boolean b) {
@@ -136,6 +141,10 @@ public class SignUp extends AppCompatActivity {
                             if (edtPass2.getText().toString().length() > 6) {
                                 invalidPass2.setVisibility(View.GONE);
                             }
+                        }
+                        if (!edtPass1.getText().toString().equals(edtPass2.getText().toString())){
+                            invalidPass1.setVisibility(View.VISIBLE);
+                            invalidPass2.setVisibility(View.VISIBLE);
                         }
                     }
 

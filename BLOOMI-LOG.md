@@ -65,6 +65,7 @@
         - passwords must match
         - password must be >6 characters in length
     - Login:
+        - credentials must be correct 
 - if sign up authorizations fail, app alerts user where the error was, and the alert disappears
 when the field is correctly formatted again 
 - Once user adds a plant, all its data is entered into the Firebase storage as a new document
@@ -78,11 +79,12 @@ when the field is correctly formatted again
 - User is now kept logged in once they log in once
     
 ## TODO:
+- create more error types for logging in: user does not exist, incorrect password
 - set up notifications based on the times indicated by the user
-- only display login page the first time the user uses the app 
+- make login page disappear faster since user is already logged in
+- when signing up, passwords must match
 - make edit plant activity that's connected to db
 - make dashboard based on db
-- make logo
 - make settings menu activity 
     - logout
     - notifications
@@ -90,9 +92,10 @@ when the field is correctly formatted again
     - contact
     - about
     - permissions
+- make logo
 - research and apply UI design principles 
 - testing app 
-    - database synchronization
+    - database synchronization (seems all good rn)
     - deleting
     - editing
     - adding

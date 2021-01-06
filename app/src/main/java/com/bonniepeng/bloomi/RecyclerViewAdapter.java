@@ -65,8 +65,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView sciName, txtType;
-        private CardView parent;
+        private final TextView sciName;
+        private final TextView txtType;
+        private final CardView parent;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

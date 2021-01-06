@@ -17,13 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO: make dashboard
-    //TODO: make garden
-    //TODO: make notifications for watering for the app
-    //TODO: UI design
-    //TODO: logo
-    //TODO: loading screen??
-
     private FirebaseAuth mAuth;
     private FloatingActionButton addPlant;
 

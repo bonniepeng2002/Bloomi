@@ -33,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
         instantiate();
 
-        String type = "login";
-
         // LOGIN
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,9 +40,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = edtEmail.getText().toString();
                 String password = edtPass.getText().toString();
-
-//                BackgroundWorker bkgr = new BackgroundWorker(LoginActivity.this);
-//                bkgr.execute(type, email, password);
 
                 // Firebase's log in method from Docs
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -54,13 +49,13 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("LOGIN", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-
                                     // Go to Home
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
 
                                 } else {
+                                    // TODO: create more error types : user does not exist, incorrect password
+                                    // TODO: and make invalid pass/email textviews show
                                     // If sign in fails, display a message to the user.
                                     Log.w("LOGIN", "signInWithEmail:failure", task.getException());
                                     Snackbar.make(view, "Incorrect email or password. Please try again.", BaseTransientBottomBar.LENGTH_SHORT).show();

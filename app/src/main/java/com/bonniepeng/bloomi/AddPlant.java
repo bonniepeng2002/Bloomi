@@ -167,7 +167,7 @@ public class AddPlant extends AppCompatActivity {
 
                     // measurement
                     if (!edtHeight.getText().toString().equals("")) {
-                        plant.put("growthMeasurement", Float.valueOf(edtHeight.getText().toString()));
+                        plant.put("growthMeasurement", Double.valueOf(edtHeight.getText().toString()));
                     } else {
                         plant.put("growthMeasurement", -1); // -1 means no measurement entered
                     }
