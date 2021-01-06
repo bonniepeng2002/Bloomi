@@ -18,7 +18,7 @@
     - Added "!" to the required fields that have been left empty, and made them disappear once the user starts typing in the field
     - Indicates if no Time/Date has been chosen for the watering notifications, if applicable
 
-## Jan 1
+### Jan 1
 - Added the feature to take a photo from the phone's camera to select an image for the plant (AddPlant.java)
 - Displays the image chosen as the plant's avatar
 - Created and finished the second implementations of the Date and Time pickers
@@ -28,7 +28,7 @@
 - Implemented Cardviews for each plant the user adds (Garden.java,  RecyclerViewAdapter.java, garden_item.xml, fragment_garden.xml)
 - Displays all Cardviews in a Recyclerview in the Garden tab
 
-## Jan 2
+### Jan 2
 - Made each Cardview clickable, and brings up the Plant's information in a new Activity (PlantCardView.java)
 - UI design for the above (activity_plant_card_view.xml)
 - Gave each plant a unique ID
@@ -39,7 +39,7 @@
     - Allows user to choose metric again (will convert into a uniform metric to use for graphs)
     - Notifies user if field is left empty
 
-## Jan 4
+### Jan 4
 - Created the Bloomi database in MySQL
     - added a plant_data table, where all the data about each plant is stored
     - added a users table, storing the login information for each user
@@ -50,7 +50,7 @@
     - the two passwords must match
     - email must not be already used
     
-## Jan 5
+### Jan 5
 - Linked the users table in the Bloomi database to LoginActivity.java by developing BackgroundWorker.java
 - Edited the UI of activity_login.xml and activity_sign_up.xml
 - Added email and password verification with the data in the bloomi database
@@ -78,7 +78,7 @@ when the field is correctly formatted again
 - On successful Add Plant, snackbar is displayed for 1.5s before going back to Garden
 - User is now kept logged in once they log in once
 
-## Jan 6
+### Jan 6
 - Added a Splash Screen for the app 
     - Activated on launch
     - Determines if the user needs to log in or if the user is already signed in

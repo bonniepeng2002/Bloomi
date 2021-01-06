@@ -2,10 +2,8 @@ package com.bonniepeng.bloomi;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,16 +12,13 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import java.util.Objects;
-
 public class SettingsActivity extends AppCompatActivity implements
-        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+        PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, Preference.OnPreferenceClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -51,9 +46,8 @@ public class SettingsActivity extends AppCompatActivity implements
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -88,12 +82,52 @@ public class SettingsActivity extends AppCompatActivity implements
         return true;
     }
 
+    // INSIDE SETTINGS MENU
     public static class HeaderFragment extends PreferenceFragmentCompat {
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.header_preferences, rootKey);
         }
+    }
+
+    // not actually used, but system needs it for some reason
+    public static class MessagesFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        }
+    }
+
+    // ON EACH OPTION CLICK
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        String key = preference.getKey();
+        switch (key) {
+            case "CEmail":
+                // TODO: open dialog to change email
+
+                break;
+            case "RPass":
+                // TODO: open dialog to change pass
+                break;
+            case "LogOut":
+                // TODO: logout with firebase and go back to login
+                break;
+            case "notifs":
+                // TODO: make all notifs in database false
+                break;
+            case "feedback":
+                // TODO: get feedback thing probably another activity
+                break;
+            case "about":
+                // TODO: display about the app info
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 
 
