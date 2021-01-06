@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,6 +39,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,10 +47,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,15 +78,14 @@ public class AddPlant extends AppCompatActivity {
     private ImageButton imageButton;
     private boolean notify, displayEmpty;
     private ScrollView parent;
-    private FirebaseAuth mAuth;
-    private static int year;
-    private static int month;
-    private static int day;
-    private static int hour;
-    private static int minute;
+    private static int notifYear, notifMonth, notifDay, notifHour, notifMinute;
+    private static Bitmap img;
 
+    // FIREBASE
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
     @Override
@@ -142,118 +149,193 @@ public class AddPlant extends AppCompatActivity {
                     plant.put("otherNotes", edtNotes.getText().toString());
                     plant.put("notif", notify);
                     if (notify) {
-                        plant.put("notifYear", year);
-                        plant.put("notifMonth", month);
-                        plant.put("notifDay", day);
-                        plant.put("notifHour", hour);
-                        plant.put("notifMinute", minute);
+                        plant.put("notifYear", notifYear);
+                        plant.put("notifMonth", notifMonth);
+                        plant.put("notifDay", notifDay);
+                        plant.put("notifHour", notifHour);
+                        plant.put("notifMinute", notifMinute);
                         plant.put("notifFrequency", notifsFrequency.getSelectedItem().toString());
                     }
                     plant.put("nickname", edtNickname.getText().toString());
-                    // TODO: IMAGE AAAAh
-                    plant.put("growthMeasurement", edtHeight.getText());
+
+                    // image
+                    try {
+                        addToStorage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Snackbar.make(view, "Error in uploading image. Please try again.", BaseTransientBottomBar.LENGTH_LONG).show();
+                        Log.w("ADD PLANT", "Error adding document to storage", e);
+                    }
+                    String imgPath = "gs://bloomi-81f41.appspot.com/plant-images/" + getFilename() + ".jpg";
+                    plant.put("imgPath", imgPath);
+
+                    // measurement
+                    if (!edtHeight.getText().toString().equals("")) {
+                        plant.put("growthMeasurement", Float.valueOf(edtHeight.getText().toString()));
+                    } else {
+                        plant.put("growthMeasurement", -1); // -1 means no measurement entered
+                    }
                     plant.put("growthMetric", metric.getSelectedItem().toString());
                     plant.put("growthDate",
                             new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
 
+                    // add to db
                     db.collection("plants").add(plant)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
-
+                                    Snackbar.make(view, "Added to Garden!", Snackbar.LENGTH_LONG)
+                                            .show();
+                                    finish();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w("ADD PLANT", "Error adding document", e);
+                                    Snackbar.make(parent, "Cannot add to Garden.", Snackbar.LENGTH_LONG)
+                                            .show();
                                 }
                             });
-
-
-                    Snackbar.make(parent, "Added to Garden!", Snackbar.LENGTH_LONG)
-                            .show();
-
-                    finish();
-
                 }
             }
 
-            private int getNewID() {
-                final int[] count = {0};
+        });
 
-                db.collection("plants").get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                        count[0]++;
-                                    }
-                                } else {
-                                    Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
+    }
 
-                return count[0]++;
+    private String getFilename() {
+        String filename;
+        if (!edtName.getText().toString().equals("")) {
+            filename = edtName.getText().toString();
+        } else {
+            filename = edtNickname.getText().toString();
+        }
+        return filename;
+    }
+
+    // ADDING JPG FILE TO FIREBASE STORAGE
+    private void addToStorage() throws IOException {
+        StorageReference storageRef = storage.getReference();
+        StorageReference newImageRef = storageRef.child("plant-images/" + getFilename() + ".jpg");
+
+//        newImageRef.getName().equals(plantImagesRef.getName());    // true
+//        newImageRef.getPath().equals(plantImagesRef.getPath());    // false
+
+        Uri file = Uri.fromFile(bitmapToFile(img, getFilename()));
+        StorageReference uploadRef = storageRef.child("plant-images/" + file.getLastPathSegment());
+        UploadTask uploadTask = uploadRef.putFile(file);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Log.w("ADD PLANT", "Error uploading image to Firebase Storage", exception);
             }
-
-            // EMPTY NAMES
-            private void emptyField() {
-                if (displayEmpty) {
-                    edtNicknameEmpty.setVisibility(View.VISIBLE);
-                    edtNameEmpty.setVisibility(View.VISIBLE);
-                }
-
-                edtNickname.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (!edtNickname.getText().toString().equals("")) {
-                            edtNicknameEmpty.setVisibility(View.GONE);
-                            edtNameEmpty.setVisibility(View.GONE);
-                            displayEmpty = false;
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                });
-                edtName.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        if (!edtName.getText().toString().equals("")) {
-                            edtNicknameEmpty.setVisibility(View.GONE);
-                            edtNameEmpty.setVisibility(View.GONE);
-                            displayEmpty = false;
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-
-                    }
-                });
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                Log.w("ADD PLANT", "Uploaded image succes!");
             }
         });
 
     }
 
-    // SETTING PICTURE FOR PLANT
+    // TURNING A BITMAP TO A FILE TO BE UPLOADED
+    private File bitmapToFile(Bitmap bm, String name) {
 
+        File filesDir = getFilesDir();
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+        return imageFile;
+    }
+
+
+    // SETTING PLANT ID
+    private int getNewID() {
+        final int[] count = {0};
+
+        db.collection("plants").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                count[0]++;
+                            }
+                        } else {
+                            Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        return count[0]++;
+    }
+
+
+    // EMPTY NAMES
+    private void emptyField() {
+        if (displayEmpty) {
+            edtNicknameEmpty.setVisibility(View.VISIBLE);
+            edtNameEmpty.setVisibility(View.VISIBLE);
+        }
+
+        edtNickname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edtNickname.getText().toString().equals("")) {
+                    edtNicknameEmpty.setVisibility(View.GONE);
+                    edtNameEmpty.setVisibility(View.GONE);
+                    displayEmpty = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edtName.getText().toString().equals("")) {
+                    edtNicknameEmpty.setVisibility(View.GONE);
+                    edtNameEmpty.setVisibility(View.GONE);
+                    displayEmpty = false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+
+    // SETTING PICTURE FOR PLANT
     // displaying options dialog
     private void selectImage(Context context) {
         final CharSequence[] options = {"Take a Photo", "Choose from Gallery", "Cancel"};
@@ -305,6 +387,7 @@ public class AddPlant extends AppCompatActivity {
                         Bundle extras = data.getExtras();
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         imageButton.setImageBitmap(imageBitmap);
+                        img = imageBitmap;
                     }
                     break;
 
@@ -316,6 +399,7 @@ public class AddPlant extends AppCompatActivity {
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                             imageButton.setImageURI(selectedImage);
+                            img = bitmap;
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -335,8 +419,8 @@ public class AddPlant extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
-            hour = c.get(Calendar.HOUR_OF_DAY);
-            minute = c.get(Calendar.MINUTE);
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -349,6 +433,8 @@ public class AddPlant extends AppCompatActivity {
             String ampm = "am";
             int newHour = hourOfDay;
             String newMinute = Integer.toString(minute);
+            notifHour = hourOfDay;
+            notifMinute = minute;
 
             if (hourOfDay > 12) {
                 newHour -= 12;
@@ -382,9 +468,9 @@ public class AddPlant extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
-            year = c.get(Calendar.YEAR);
-            month = c.get(Calendar.MONTH);
-            day = c.get(Calendar.DAY_OF_MONTH);
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
@@ -394,6 +480,9 @@ public class AddPlant extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             String newDay = Integer.toString(day);
             String newMonth = Integer.toString(month + 1);
+            notifDay = day;
+            notifMonth = month;
+            notifYear = year;
 
             if (day < 10) {
                 newDay = "0" + newDay;
@@ -451,8 +540,8 @@ public class AddPlant extends AppCompatActivity {
         // LAYOUTS
         parent = findViewById(R.id.parent);
 
-        // FIREBASE
-        mAuth = FirebaseAuth.getInstance();
+        // IMAGE BITMAPS
+        img = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
 
     }
 }

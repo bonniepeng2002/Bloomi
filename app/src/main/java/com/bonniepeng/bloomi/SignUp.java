@@ -46,9 +46,6 @@ public class SignUp extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: if email is already in db
-                // TODO: if passwords don't match
-                // TODO: add to db and proceed
 
                 // getting input
                 String email = edtEmail.getText().toString();
@@ -98,7 +95,9 @@ public class SignUp extends AppCompatActivity {
             }
 
             private void invalidemail(boolean b) {
-                invalidEmail.setVisibility(View.VISIBLE);
+                if (b){
+                    invalidEmail.setVisibility(View.VISIBLE);
+                }
 
                 edtEmail.addTextChangedListener(new TextWatcher() {
                     @Override

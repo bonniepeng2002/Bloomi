@@ -67,12 +67,17 @@
     - Login:
 - if sign up authorizations fail, app alerts user where the error was, and the alert disappears
 when the field is correctly formatted again 
+- Once user adds a plant, all its data is entered into the Firebase storage as a new document
+    - plant image is compressed from a Bitmap to a JPG
+    - plant image is uploaded to the Firebase Storage 
+    - image path in storage is added with the plant data
+- Bug after bug after bug today :'')))
+    - IT WORKED!!
     
 ## TODO:
 - set up notifications based on the times indicated by the user
 - only display login page the first time the user uses the app 
 - make edit plant activity that's connected to db
-- connect activity_add_plant to db
 - make dashboard based on db
 - make logo
 - make settings menu activity 

@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d("LOGIN", "signInWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    Snackbar.make(view, "Sign in success!", BaseTransientBottomBar.LENGTH_SHORT).show();
 
                                     // Go to Home
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -65,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("LOGIN", "signInWithEmail:failure", task.getException());
-                                    Snackbar.make(view, "Sign in failed.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                    Snackbar.make(view, "Incorrect email or password. Please try again.", BaseTransientBottomBar.LENGTH_SHORT).show();
                                 }
                             }
                         });
