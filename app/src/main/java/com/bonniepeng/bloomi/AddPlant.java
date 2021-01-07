@@ -138,6 +138,8 @@ public class AddPlant extends AppCompatActivity {
                     Snackbar.make(parent, "Please set a notification time.", Snackbar.LENGTH_LONG)
                             .show();
                 } else {
+                    addToGarden.setEnabled(false);
+
                     // ADD TO DATABASE
                     Map<String, Object> plant = new HashMap<>();
                     plant.put("userID", currentUser.getUid());

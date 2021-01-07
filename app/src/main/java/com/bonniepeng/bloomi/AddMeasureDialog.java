@@ -12,7 +12,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomDialog extends Dialog {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class AddMeasureDialog extends Dialog {
 
     public Activity activity;
     public Dialog dialog;
@@ -20,8 +23,9 @@ public class CustomDialog extends Dialog {
     private TextView txtEmpty;
     private Spinner metric;
     private EditText newMeasurement;
+    private FirebaseAuth mAuth;
 
-    public CustomDialog(Activity a) {
+    public AddMeasureDialog(Activity a) {
         super(a);
         this.activity = a;
     }
@@ -37,8 +41,10 @@ public class CustomDialog extends Dialog {
         btnOk = findViewById(R.id.btnOk);
         btnCancel = findViewById(R.id.btnCancel);
         metric = findViewById(R.id.newMetric);
-        newMeasurement = findViewById(R.id.edtNewMeasurement);
+        newMeasurement = findViewById(R.id.edtNewEmail);
         txtEmpty = findViewById(R.id.txtEmpty);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         // OK
         btnOk.setOnClickListener(new View.OnClickListener() {

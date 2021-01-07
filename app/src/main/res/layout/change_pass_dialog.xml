@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/alertRPass"
+    android:layout_width="370dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:background="@drawable/curve_shape"
+    android:orientation="vertical"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="5dp">
+
+    <TextView
+        android:id="@+id/txtRP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Reset Password"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtOldPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWrongPass" />
+
+    <Button
+        android:id="@+id/RPOk"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="63dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="0dp"
+        android:paddingVertical="0dp"
+        android:text="@android:string/ok"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtNewPass2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/RPCancel"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/RPOk"
+        app:layout_constraintTop_toTopOf="@+id/RPOk"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/wrongOldPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="!"
+        android:textColor="#F44336"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/edtOldPass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edtOldPass"
+        app:layout_constraintTop_toTopOf="@+id/edtOldPass" />
+
+    <TextView
+        android:id="@+id/txtWrongPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:text="Incorrect password."
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtRP"
+        app:layout_constraintTop_toBottomOf="@+id/txtOP" />
+
+    <TextView
+        android:id="@+id/txtOP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Old Password:"
+        android:textColor="@color/purple_500"
+        app:layout_constraintStart_toStartOf="@+id/txtRP"
+        app:layout_constraintTop_toBottomOf="@+id/txtRP" />
+
+    <TextView
+        android:id="@+id/txtNP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Password:"
+        android:textColor="@color/purple_500"
+        app:layout_constraintStart_toStartOf="@+id/txtOP"
+        app:layout_constraintTop_toBottomOf="@+id/edtOldPass"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/txtWeakPass1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:text="Password must be at least 6 characters long."
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/txtWrongPass"
+        app:layout_constraintStart_toStartOf="@+id/txtWrongPass"
+        app:layout_constraintTop_toBottomOf="@+id/txtNP" />
+
+    <EditText
+        android:id="@+id/edtNewPass1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtWeakPass1" />
+
+    <TextView
+        android:id="@+id/weakPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="!"
+        android:textColor="#F44336"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/edtNewPass1"
+        app:layout_constraintStart_toEndOf="@+id/edtOldPass"
+        app:layout_constraintStart_toStartOf="@+id/wrongOldPass"
+        app:layout_constraintTop_toTopOf="@+id/edtNewPass1" />
+
+    <TextView
+        android:id="@+id/txtRNP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Re-enter New Password:"
+        android:textColor="@color/purple_500"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/txtNP"
+        app:layout_constraintTop_toBottomOf="@+id/edtNewPass1" />
+
+    <TextView
+        android:id="@+id/txtPassNoMatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="28dp"
+        android:text="Passwords must match."
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/txtWeakPass1"
+        app:layout_constraintStart_toStartOf="@+id/txtWeakPass1"
+        app:layout_constraintTop_toBottomOf="@+id/txtRNP" />
+
+    <EditText
+        android:id="@+id/edtNewPass2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassNoMatch" />
+
+    <TextView
+        android:id="@+id/passNoMatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="!"
+        android:textColor="#F44336"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/edtNewPass2"
+        app:layout_constraintStart_toEndOf="@+id/edtOldPass"
+        app:layout_constraintStart_toStartOf="@+id/weakPass"
+        app:layout_constraintTop_toTopOf="@+id/edtNewPass2" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,16 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         app:key="account_category"
-        app:title="Account Settings">
+        app:title="Account">
+
 
         <Preference
             app:fragment="com.bonniepeng.bloomi.SettingsActivity$MessagesFragment"
             app:key="CEmail"
-            app:title="Change Email" />
+            app:title="Change Email"
+            app:summary=""/>
 
         <Preference
             app:fragment="com.bonniepeng.bloomi.SettingsActivity$MessagesFragment"
@@ -23,7 +26,7 @@
 
     <PreferenceCategory
         app:key="others_category"
-        app:title="">
+        app:title="Other">
 
         <SwitchPreferenceCompat
             app:key="notifs"

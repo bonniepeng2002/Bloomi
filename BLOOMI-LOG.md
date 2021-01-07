@@ -84,11 +84,16 @@ when the field is correctly formatted again
     - Determines if the user needs to log in or if the user is already signed in
     - Moves user to appropriate page
 - Created settings menu
-    - user can change email, password, and log out 
-    - user can toggle notifications
-    - user can send feedback / bug reports
-    - user can learn more about the app
+    - user will be able to change email, password, and log out 
+    - user will be able to toggle notifications
+    - user will be able to send feedback / bug reports
+    - user will be able to learn more about the app
 - Inflated the menu option to be ON THE SAME actionbar as the app title!!
+- In the settings menu:
+    - Displays current user's email under Change Email.
+        - Updates when user changes email!
+    - developed the change email dialog
+        - displays appropriate error messages to the user 
     
 ## TODO:
 - create more error types for logging in: user does not exist, incorrect password

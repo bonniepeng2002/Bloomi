@@ -58,7 +58,7 @@ public class PlantCardView extends AppCompatActivity {
         plantAddMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialog cdd = new CustomDialog(PlantCardView.this);
+                AddMeasureDialog cdd = new AddMeasureDialog(PlantCardView.this);
                 InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
                 cdd.getWindow().setBackgroundDrawable(inset);
                 cdd.show();

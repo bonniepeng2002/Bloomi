@@ -52,6 +52,10 @@
     <string name="sign_up"><u>Sign Up</u></string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="CEmail">CEmail</string>
+    <string name="add_a_new_measurement">Add a New Measurement</string>
+    <string name="update_email">Update Email</string>
+    <string name="new_email">New Email:</string>
 
 
 </resources>

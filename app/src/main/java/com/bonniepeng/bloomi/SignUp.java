@@ -57,6 +57,8 @@ public class SignUp extends AppCompatActivity {
 
                 // creating user
                 if (pass1.equals(pass2)) {
+                    signUp.setEnabled(false);
+
                     // from Firebase's Docs
                     mAuth.createUserWithEmailAndPassword(email, pass1)
                             .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
