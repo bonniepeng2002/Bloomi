@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -30,7 +28,7 @@ import java.util.Objects;
 public class SignUp extends AppCompatActivity {
 
     private EditText edtEmail, edtPass1, edtPass2;
-    private Button signUp;
+    private Button signUp, cancel;
     private TextView invalidEmail, invalidPass1, invalidPass2, txtBadEmail, txtBadPass;
     private FirebaseAuth mAuth;
     private final String TAG = "SIGNUP";
@@ -41,6 +39,14 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         Objects.requireNonNull(getSupportActionBar()).hide();
         instantiate();
+
+        // CANCEL
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // SIGNING UP
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -59,49 +65,57 @@ public class SignUp extends AppCompatActivity {
                 txtBadEmail.setVisibility(View.GONE);
 
                 // creating user
-                if (pass1.equals(pass2)) {
+                if (!email.equals("")) {
+                    if (pass1.equals(pass2)) {
+                        if (!pass1.equals("")) {
 
-                    // from Firebase's Docs
-                    mAuth.createUserWithEmailAndPassword(email, pass1)
-                            .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign up success
-                                        signUp.setEnabled(false);
-                                        Log.w(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
+                            // from Firebase's Docs
+                            mAuth.createUserWithEmailAndPassword(email, pass1)
+                                    .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                // Sign up success
+                                                signUp.setEnabled(false);
+                                                Log.w(TAG, "createUserWithEmail:success");
+                                                FirebaseUser user = mAuth.getCurrentUser();
 
-                                        // Go to Home
-                                        Intent intent = new Intent(SignUp.this, MainActivity.class);
-                                        startActivity(intent);
+                                                // Go to Home
+                                                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                                startActivity(intent);
 
-                                    } else {
-                                        try {
-                                            throw Objects.requireNonNull(task.getException());
+                                            } else {
+                                                try {
+                                                    throw Objects.requireNonNull(task.getException());
 
-                                        } catch (FirebaseAuthWeakPasswordException e) {
-                                            invalidPass("Password must have at least 6 characters.");
+                                                } catch (FirebaseAuthWeakPasswordException e) {
+                                                    invalidPass("Password must have at least 6 characters.");
 
-                                        } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            invalidemail("Please enter a valid email.");
+                                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                                    invalidEmail("Please enter a valid email.");
 
-                                        } catch (FirebaseAuthUserCollisionException e) {
-                                            invalidemail("User has already registered.");
+                                                } catch (FirebaseAuthUserCollisionException e) {
+                                                    invalidEmail("User has already registered.");
 
-                                        } catch (Exception e) {
-                                            Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                                                } catch (Exception e) {
+                                                    Log.e(TAG, Objects.requireNonNull(e.getMessage()));
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                            });
+                                    });
+                        } else {
+                            invalidPass("Password cannot be blank.");
+                        }
+                    } else {
+                        invalidPass("Passwords must match.");
+                    }
                 } else {
-                    invalidPass("Passwords must match.");
+                    invalidEmail("Email cannot be blank.");
                 }
             }
 
 
-            private void invalidemail(String message) {
+            private void invalidEmail(String message) {
 
                 invalidEmail.setVisibility(View.VISIBLE);
                 txtBadEmail.setText(message);
@@ -172,6 +186,7 @@ public class SignUp extends AppCompatActivity {
 
         // BUTTON
         signUp = findViewById(R.id.btnSUSignUp);
+        cancel = findViewById(R.id.btnSUCancel);
 
         // TEXTVIEWS
         invalidEmail = findViewById(R.id.emailInvalid);

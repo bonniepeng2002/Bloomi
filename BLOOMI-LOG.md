@@ -94,9 +94,21 @@ when the field is correctly formatted again
         - Updates when user changes email!
     - developed the change email dialog
         - displays appropriate error messages to the user 
-- redesigned the displaying of error messages to user on login (if appropriate)
-- restyled sign up error alerts
-- Implemented change password feature 
+    - Implemented change password feature 
+        - tests for correct old password 
+        - new passwords must not be weak and must match
+    - log out 
+        - brings user back to login 
+- redesigned the displaying of error messages to user in
+    - login activity
+    - sign up activity 
+- removed app action bars in login and signup 
+- user can now effectively log in, change email, change password, and log out.
+
+
+- add cancel button in sign up
+- add forgot password button in login 
+    - sends reset password email 
 
     
 ## TODO:

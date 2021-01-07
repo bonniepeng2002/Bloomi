@@ -50,47 +50,54 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPass.getText().toString();
                 txtError.setVisibility(View.INVISIBLE);
 
-                // Firebase's log in method from Docs
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    btnLogin.setEnabled(false);
-                                    Log.i("LOGIN", "signInWithEmail:success");
+                if (!email.equals("")) {
+                    if (!password.equals("")) {
+                        // Firebase's log in method from Docs
+                        mAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            btnLogin.setEnabled(false);
+                                            Log.i("LOGIN", "signInWithEmail:success");
 
-                                    // Store the password
-                                    // TODO: possibly make this more secure?
-                                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putString("password", edtPass.getText().toString());
-                                    editor.apply();
+                                            // Store the password
+                                            // TODO: possibly make this more secure?
+                                            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                                            SharedPreferences.Editor editor = sharedPref.edit();
+                                            editor.putString("password", edtPass.getText().toString());
+                                            editor.apply();
 
-                                    // Go to Home
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                            // Go to Home
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
 
-                                } else {
+                                        } else {
 
-                                    // If sign in fails, display a message to the user.
-                                    try {
-                                        throw Objects.requireNonNull(task.getException());
+                                            // If sign in fails, display a message to the user.
+                                            try {
+                                                throw Objects.requireNonNull(task.getException());
 
-                                    } catch (FirebaseAuthInvalidUserException e) {
-                                        loginFail("Incorrect email.");
+                                            } catch (FirebaseAuthInvalidUserException e) {
+                                                loginFail("Incorrect email.");
 
-                                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                                        loginFail("Incorrect password.");
+                                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                                loginFail("Incorrect email or password.");
 
-                                    } catch (Exception e) {
-                                        loginFail("Could not log in. Please try again later.");
-                                        Log.e("LOG IN", Objects.requireNonNull(e.getMessage()));
+                                            } catch (Exception e) {
+                                                loginFail("Could not log in. Please try again later.");
+                                                Log.e("LOG IN", Objects.requireNonNull(e.getMessage()));
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                        });
-
+                                });
+                    } else {
+                        loginFail("Incorrect password.");
+                    }
+                } else {
+                    loginFail("Email cannot be blank.");
+                }
             }
         });
 

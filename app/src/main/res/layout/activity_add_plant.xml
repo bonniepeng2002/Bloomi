@@ -75,11 +75,12 @@
 
         <Button
             android:id="@+id/btnAddToGarden"
-            android:layout_width="168dp"
+            android:layout_width="210dp"
             android:layout_height="61dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:text="@string/add_to_garden"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
