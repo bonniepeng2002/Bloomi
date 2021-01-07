@@ -145,6 +145,12 @@ public class SettingsActivity extends AppCompatActivity implements
             password.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
+
+                    ChangePassDialog cpd = new ChangePassDialog(getActivity());
+                    InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
+                    cpd.getWindow().setBackgroundDrawable(inset);
+                    cpd.show();
+
                     return false;
                 }
             });
@@ -154,10 +160,12 @@ public class SettingsActivity extends AppCompatActivity implements
             logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    ChangeEmailDialog ced = new ChangeEmailDialog(getActivity());
-                    InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
-                    ced.getWindow().setBackgroundDrawable(inset);
-                    ced.show();
+                    FirebaseAuth.getInstance().signOut();
+                    Log.i("LOG OUT", "user has logged out");
+
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+
                     return false;
                 }
             });
@@ -205,7 +213,6 @@ public class SettingsActivity extends AppCompatActivity implements
 //        ((Globals) this.getApplication()).setRefreshSettings(false);
 
 
-
     // CURRENTLY USELESS
 
     // not actually used, but system needs it for some reason
@@ -231,7 +238,6 @@ public class SettingsActivity extends AppCompatActivity implements
 //                break;
 //            case "RPass":
 //                Log.i("SETTINGS", "change password button clicked");
-//                // TODO: open dialog to change pass
 //                break;
 //            case "LogOut":
 //                Log.i("SETTINGS", "logout button clicked");

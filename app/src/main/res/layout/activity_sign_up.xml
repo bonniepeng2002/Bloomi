@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".SignUp">
 
     <ProgressBar
         android:id="@+id/loading"
@@ -53,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtBloomi" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -69,13 +70,12 @@
             android:id="@+id/edtSUEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txtEmail"
-            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSUBadEmail" />
 
         <TextView
             android:id="@+id/txtPass"
@@ -91,13 +91,12 @@
             android:id="@+id/edtSUPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="24dp"
             android:ems="10"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/txtPass"
-            app:layout_constraintTop_toBottomOf="@+id/txtPass" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSUBadPass" />
 
         <TextView
             android:id="@+id/txtEmail"
@@ -133,16 +132,14 @@
 
         <Button
             android:id="@+id/btnSUSignUp"
-            android:layout_width="136dp"
+            android:layout_width="150dp"
             android:layout_height="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="37dp"
             android:text="sign up"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtSUPass2"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/edtSUPass2" />
 
         <TextView
             android:id="@+id/emailInvalid"
@@ -185,6 +182,49 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/edtSUPass2"
             app:layout_constraintTop_toTopOf="@+id/edtSUPass2" />
+
+        <TextView
+            android:id="@+id/txtSUBadEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="28dp"
+            android:text=""
+            android:textColor="#F44336"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/txtEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+        <TextView
+            android:id="@+id/txtSUBadPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="28dp"
+            android:text=""
+            android:textColor="#F44336"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/txtSUBadEmail"
+            app:layout_constraintTop_toBottomOf="@+id/txtPass" />
+
+        <Button
+            android:id="@+id/btnSUCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAllCaps="false"
+            android:text="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSUSignUp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

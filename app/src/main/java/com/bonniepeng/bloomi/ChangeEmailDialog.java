@@ -84,9 +84,8 @@ public class ChangeEmailDialog extends Dialog {
                     } else {
 
                         // Get auth credentials from the user for re-authentication
-                        // TODO: change this password from being hardcoded to userPass once you log out
                         AuthCredential credential = EmailAuthProvider
-                                .getCredential(currentUser.getEmail(), "bonniebob"); // Current Login Credentials
+                                .getCredential(currentUser.getEmail(), userPass); // Current Login Credentials
                         Log.i("CHANGE EMAIL", "finished getting credential");
 
                         // Prompt the user to re-provide their sign-in credentials

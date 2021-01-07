@@ -18,22 +18,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtEmail, edtPass;
     private Button btnLogin, btnSignup;
-    private TextView invalidEmail, invalidPass;
+    private TextView txtError;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
         instantiate();
 
         // LOGIN
@@ -43,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = edtEmail.getText().toString();
                 String password = edtPass.getText().toString();
+                txtError.setVisibility(View.INVISIBLE);
 
                 // Firebase's log in method from Docs
                 mAuth.signInWithEmailAndPassword(email, password)
@@ -52,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     btnLogin.setEnabled(false);
-                                    Log.d("LOGIN", "signInWithEmail:success");
+                                    Log.i("LOGIN", "signInWithEmail:success");
 
                                     // Store the password
                                     // TODO: possibly make this more secure?
@@ -66,11 +72,21 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent);
 
                                 } else {
-                                    // TODO: create more error types : user does not exist, incorrect password
-                                    // TODO: and make invalid pass/email textviews show
+
                                     // If sign in fails, display a message to the user.
-                                    Log.w("LOGIN", "signInWithEmail:failure", task.getException());
-                                    Snackbar.make(view, "Incorrect email or password. Please try again.", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                    try {
+                                        throw Objects.requireNonNull(task.getException());
+
+                                    } catch (FirebaseAuthInvalidUserException e) {
+                                        loginFail("Incorrect email.");
+
+                                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                                        loginFail("Incorrect password.");
+
+                                    } catch (Exception e) {
+                                        loginFail("Could not log in. Please try again later.");
+                                        Log.e("LOG IN", Objects.requireNonNull(e.getMessage()));
+                                    }
                                 }
                             }
                         });
@@ -89,19 +105,25 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void loginFail(String message) {
+
+        txtError.setText(message);
+        txtError.setVisibility(View.VISIBLE);
+
+    }
+
 
     private void instantiate() {
         // EDITTEXTS
-        edtEmail = findViewById(R.id.edtSUEmail);
-        edtPass = findViewById(R.id.edtSUPass);
+        edtEmail = findViewById(R.id.edtLIEmail);
+        edtPass = findViewById(R.id.edtLIPass);
 
         // BUTTONS
-        btnLogin = findViewById(R.id.btnSUSignUp);
+        btnLogin = findViewById(R.id.btnLILogin);
         btnSignup = findViewById(R.id.btnSignUp);
 
         // TEXTVIEWS
-        invalidEmail = findViewById(R.id.falseEmail);
-        invalidPass = findViewById(R.id.falsePass);
+        txtError = findViewById(R.id.txtError);
 
         // FIREBASE
         mAuth = FirebaseAuth.getInstance();

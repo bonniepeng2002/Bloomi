@@ -31,7 +31,7 @@ public class SignUp extends AppCompatActivity {
 
     private EditText edtEmail, edtPass1, edtPass2;
     private Button signUp;
-    private TextView invalidEmail, invalidPass1, invalidPass2;
+    private TextView invalidEmail, invalidPass1, invalidPass2, txtBadEmail, txtBadPass;
     private FirebaseAuth mAuth;
     private final String TAG = "SIGNUP";
 
@@ -39,7 +39,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        Objects.requireNonNull(getSupportActionBar()).hide();
         instantiate();
 
         // SIGNING UP
@@ -51,13 +51,15 @@ public class SignUp extends AppCompatActivity {
                 String email = edtEmail.getText().toString();
                 String pass1 = edtPass1.getText().toString();
                 String pass2 = edtPass2.getText().toString();
+
                 invalidPass1.setVisibility(View.GONE);
                 invalidPass2.setVisibility(View.GONE);
                 invalidEmail.setVisibility(View.GONE);
+                txtBadPass.setVisibility(View.GONE);
+                txtBadEmail.setVisibility(View.GONE);
 
                 // creating user
                 if (pass1.equals(pass2)) {
-                    signUp.setEnabled(false);
 
                     // from Firebase's Docs
                     mAuth.createUserWithEmailAndPassword(email, pass1)
@@ -66,6 +68,7 @@ public class SignUp extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign up success
+                                        signUp.setEnabled(false);
                                         Log.w(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -78,16 +81,13 @@ public class SignUp extends AppCompatActivity {
                                             throw Objects.requireNonNull(task.getException());
 
                                         } catch (FirebaseAuthWeakPasswordException e) {
-                                            Snackbar.make(view, "Password must have at least 6 characters.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                            invalidPass(true);
+                                            invalidPass("Password must have at least 6 characters.");
 
                                         } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            Snackbar.make(view, "Please enter a valid email.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                            invalidemail(true);
+                                            invalidemail("Please enter a valid email.");
 
                                         } catch (FirebaseAuthUserCollisionException e) {
-                                            Snackbar.make(view, "User has already registered.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                                            invalidemail(true);
+                                            invalidemail("User has already registered.");
 
                                         } catch (Exception e) {
                                             Log.e(TAG, Objects.requireNonNull(e.getMessage()));
@@ -96,15 +96,16 @@ public class SignUp extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Snackbar.make(view, "Passwords must match.", BaseTransientBottomBar.LENGTH_SHORT).show();
-                    invalidPass(true);
+                    invalidPass("Passwords must match.");
                 }
             }
 
-            private void invalidemail(boolean b) {
-                if (b) {
-                    invalidEmail.setVisibility(View.VISIBLE);
-                }
+
+            private void invalidemail(String message) {
+
+                invalidEmail.setVisibility(View.VISIBLE);
+                txtBadEmail.setText(message);
+                txtBadEmail.setVisibility(View.VISIBLE);
 
                 edtEmail.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -115,6 +116,7 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         invalidEmail.setVisibility(View.GONE);
+                        txtBadEmail.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -124,11 +126,13 @@ public class SignUp extends AppCompatActivity {
                 });
             }
 
-            private void invalidPass(boolean toggle) {
-                if (toggle) {
-                    invalidPass1.setVisibility(View.VISIBLE);
-                    invalidPass2.setVisibility(View.VISIBLE);
-                }
+            private void invalidPass(String message) {
+
+                invalidPass1.setVisibility(View.VISIBLE);
+                invalidPass2.setVisibility(View.VISIBLE);
+                txtBadPass.setText(message);
+                txtBadPass.setVisibility(View.VISIBLE);
+
 
                 edtPass1.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -140,13 +144,13 @@ public class SignUp extends AppCompatActivity {
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         if (edtPass1.getText().toString().length() > 6) {
                             invalidPass1.setVisibility(View.GONE);
+                            txtBadPass.setVisibility(View.GONE);
                             if (edtPass2.getText().toString().length() > 6) {
                                 invalidPass2.setVisibility(View.GONE);
                             }
                         }
-                        if (!edtPass1.getText().toString().equals(edtPass2.getText().toString())){
-                            invalidPass1.setVisibility(View.VISIBLE);
-                            invalidPass2.setVisibility(View.VISIBLE);
+                        if (!edtPass1.getText().toString().equals(edtPass2.getText().toString())) {
+                            invalidPass("Passwords must match.");
                         }
                     }
 
@@ -173,6 +177,8 @@ public class SignUp extends AppCompatActivity {
         invalidEmail = findViewById(R.id.emailInvalid);
         invalidPass1 = findViewById(R.id.passInvalid1);
         invalidPass2 = findViewById(R.id.passInvalid2);
+        txtBadEmail = findViewById(R.id.txtSUBadEmail);
+        txtBadPass = findViewById(R.id.txtSUBadPass);
 
         // FIREBASE
         mAuth = FirebaseAuth.getInstance();

@@ -56,6 +56,7 @@
     <string name="add_a_new_measurement">Add a New Measurement</string>
     <string name="update_email">Update Email</string>
     <string name="new_email">New Email:</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

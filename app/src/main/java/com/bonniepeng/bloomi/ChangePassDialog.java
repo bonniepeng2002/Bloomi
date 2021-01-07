@@ -19,14 +19,14 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class ChangePassDialog extends Dialog {
     public Activity activity;
     public Context context;
     public Dialog dialog;
-    private TextView badPass, txtWrongPass, txtWeakPass, txtPassNoMatch, wrongPass, weakPass, passNoMatch;
+    private TextView txtWrongPass, txtWeakPass, txtPassNoMatch, wrongPass, weakPass, passNoMatch;
     private Button cancel, ok;
     private EditText edtOldPass, edtNewPass1, edtNewPass2;
     private FirebaseAuth mAuth;
@@ -72,36 +72,91 @@ public class ChangePassDialog extends Dialog {
             @Override
             public void onClick(View view) {
 
+                String newPass = edtNewPass1.getText().toString();
+
                 if (currentUser != null) {
 
-                        // Get auth credentials from the user for re-authentication
-                        // TODO: change this password from being hardcoded to userPass once you log out
-                        AuthCredential credential = EmailAuthProvider
-                                .getCredential(currentUser.getEmail(), "bonniebob"); // Current Login Credentials
-                        Log.i("CHANGE EMAIL", "finished getting credential");
+                    if (newPass.equals(edtNewPass2.getText().toString())) {
 
-                        // Prompt the user to re-provide their sign-in credentials
-                        currentUser.reauthenticate(credential)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        if (edtOldPass.getText().toString().equals(userPass)) {
+                            // Get auth credentials from the user for re-authentication
+                            AuthCredential credential = EmailAuthProvider
+                                    .getCredential(currentUser.getEmail(), userPass); // Current Login Credentials
+                            Log.i("CHANGE PASSWORD", "finished getting credential");
 
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.i("REAUTHENTICATE USER", "User re-authenticated.");
+                            // Prompt the user to re-provide their sign-in credentials
+                            currentUser.reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
 
-                                        // update password
-                                    }
-                                });
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.i("REAUTHENTICATE USER", "User re-authenticated.");
 
+                                            // update password
+                                            currentUser.updatePassword(newPass)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Log.i("CHANGE PASSWORD", "User password updated.");
+                                                                Snackbar.make(view, "Password successfully changed.", Snackbar.LENGTH_LONG)
+                                                                        .show();
+                                                                Handler handler = new Handler();
+                                                                handler.postDelayed(new Runnable() {
+                                                                    public void run() {
+                                                                        dismiss();
+                                                                    }
+                                                                }, 1000);
+
+                                                            } else {
+                                                                try {
+                                                                    throw Objects.requireNonNull(task.getException());
+                                                                } catch (FirebaseAuthWeakPasswordException e) {
+                                                                    badPass(edtNewPass1, txtWeakPass, weakPass);
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+
+                                        }
+
+
+                                    });
+
+                            currentUser.reauthenticate(credential).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Snackbar.make(view, "Error, could not reauthenticate user. Try logging out and in again, and report this bug in Settings.", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                            .setAction("OK", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    dismiss();
+                                                }
+                                            })
+                                            .show();
+                                    Log.i("REAUTHENTICATE USER", "Could not reauthenticate");
+                                }
+                            });
+
+                        } else {
+                            badPass(edtOldPass, txtWrongPass, wrongPass);
+                        }
+
+                    } else {
+                        badPass(edtNewPass2, txtPassNoMatch, passNoMatch);
+                    }
 
                 } else {
                     Snackbar.make(view, "Error, you are not logged in. Try logging out and in again, and report this bug in Settings.", BaseTransientBottomBar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dismiss();
-                        }
-                    })
-                    .show();
+                            .setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dismiss();
+                                }
+                            })
+                            .show();
                     Log.i("CHANGE PASSWORD", "Current user was null");
                 }
             }
@@ -116,6 +171,40 @@ public class ChangePassDialog extends Dialog {
         });
 
     }
+
+    private void badPass(EditText edit, TextView message, TextView exclMark) {
+
+        exclMark.setVisibility(View.VISIBLE);
+        message.setVisibility(View.VISIBLE);
+
+        if (edit==edtOldPass){
+            edtOldPass.setText("");
+        } else if (edit==edtNewPass1){
+            edtNewPass1.setText("");
+            edtNewPass2.setText("");
+        } else {
+            edtNewPass2.setText("");
+        }
+
+        edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!edit.getText().toString().equals("")) {
+                    exclMark.setVisibility(View.GONE);
+                    message.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+
 
     private void instantiate() {
         // TEXTVIEWS
@@ -135,31 +224,6 @@ public class ChangePassDialog extends Dialog {
         edtNewPass1 = findViewById(R.id.edtNewPass1);
         edtNewPass2 = findViewById(R.id.edtNewPass2);
 
-    }
-
-
-    private void wrongPass() {
-
-        wrongPass.setVisibility(View.VISIBLE);
-        txtWrongPass.setVisibility(View.VISIBLE);
-
-        edtOldPass.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!edtOldPass.getText().toString().equals("")) {
-                    wrongPass.setVisibility(View.GONE);
-                    txtWrongPass.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
     }
 
 

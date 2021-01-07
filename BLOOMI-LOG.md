@@ -94,9 +94,12 @@ when the field is correctly formatted again
         - Updates when user changes email!
     - developed the change email dialog
         - displays appropriate error messages to the user 
+- redesigned the displaying of error messages to user on login (if appropriate)
+- restyled sign up error alerts
+- Implemented change password feature 
+
     
 ## TODO:
-- create more error types for logging in: user does not exist, incorrect password
 - set up notifications based on the times indicated by the user
 - redesign Add Plant activity to look like Plant Card View 
 - make edit plant activity that's connected to db

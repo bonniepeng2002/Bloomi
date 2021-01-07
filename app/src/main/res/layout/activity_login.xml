@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".LoginActivity">
 
     <ProgressBar
         android:id="@+id/loading"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
 
     <EditText
-        android:id="@+id/edtSUEmail"
+        android:id="@+id/edtLIEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="35dp"
@@ -75,52 +75,52 @@
         android:text="Password:"
         android:textColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="@+id/txtEmail"
-        app:layout_constraintTop_toTopOf="@+id/edtSUPass" />
+        app:layout_constraintTop_toTopOf="@+id/edtLIPass" />
 
     <EditText
-        android:id="@+id/edtSUPass"
+        android:id="@+id/edtLIPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/edtSUEmail"
-        app:layout_constraintTop_toBottomOf="@+id/edtSUEmail" />
+        app:layout_constraintStart_toStartOf="@+id/edtLIEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtLIEmail" />
 
     <TextView
         android:id="@+id/txtEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="55dp"
         android:text="Email:"
         android:textColor="@color/purple_500"
-        app:layout_constraintEnd_toStartOf="@+id/edtSUEmail"
+        app:layout_constraintEnd_toStartOf="@+id/edtLIEmail"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtBloomi" />
 
     <Button
-        android:id="@+id/btnSUSignUp"
+        android:id="@+id/btnLILogin"
         android:layout_width="136dp"
         android:layout_height="60dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:text="log in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSUPass" />
+        app:layout_constraintTop_toBottomOf="@+id/txtError" />
 
     <TextView
         android:id="@+id/txtOr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="14dp"
         android:text="or"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSignUp"
         app:layout_constraintEnd_toStartOf="@+id/btnSignUp"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/btnSUSignUp"
+        app:layout_constraintStart_toStartOf="@+id/btnLILogin"
         app:layout_constraintTop_toTopOf="@+id/btnSignUp" />
 
     <Button
@@ -128,41 +128,29 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="@string/sign_up"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnSUSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/btnLILogin"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/txtOr"
-        app:layout_constraintTop_toBottomOf="@+id/btnSUSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/btnLILogin"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/falseEmail"
+        android:id="@+id/txtError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="!"
+        android:layout_marginTop="20dp"
         android:textColor="#F44336"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/edtSUEmail"
-        app:layout_constraintStart_toEndOf="@+id/edtSUEmail"
-        app:layout_constraintTop_toTopOf="@+id/edtSUEmail" />
-
-    <TextView
-        android:id="@+id/falsePass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="!"
-        android:textColor="#F44336"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/edtSUPass"
-        app:layout_constraintStart_toEndOf="@+id/edtSUPass"
-        app:layout_constraintTop_toTopOf="@+id/edtSUPass" />
+        android:text=""
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtLIPass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
