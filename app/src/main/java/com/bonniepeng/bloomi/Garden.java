@@ -64,8 +64,7 @@ public class Garden extends Fragment {
         return fragment;
     }
 
-
-    // ACTIVITY
+    // --------------------------------------------------------------------
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -79,9 +78,8 @@ public class Garden extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+    public void onResume() {
+        super.onResume();
         // getting user collection of plants
         CollectionReference userPlants = db.collection("users")
                 .document(currentUser.getUid()).collection("plants");
@@ -115,8 +113,11 @@ public class Garden extends Fragment {
                 }
             }
         });
+    }
 
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

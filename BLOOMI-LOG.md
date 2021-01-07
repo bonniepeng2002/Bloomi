@@ -120,14 +120,18 @@ when the field is correctly formatted again
     - for every plant in user's collection in db, add plant document as Map<String, Object> into an ArrayList
     - Inflated every cardview in Garden with an item from above ArrayList
     - I was so scared this wasn't ever going to work lol!
+    - after adding a new plant, list of plants refresh
+    - loads plant image onto the small cardview from database
     
 ## TODO:
+- make is so that the nicknames are unique
 - set up notifications based on the times indicated by the user
 - add plant
     - remove image option
     - change the floating action button to a cardview in garden with a plus sign in the middle?
 - redesign Add Plant activity to look like Plant Card View 
 - make edit plant activity that's connected to db
+    - delete plant 
 - make dashboard based on db
 - make logo
 - research and apply UI design principles 

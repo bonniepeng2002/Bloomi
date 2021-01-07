@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -33,12 +34,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,6 +81,7 @@ public class AddPlant extends AppCompatActivity {
     private ScrollView parent;
     private static int notifYear, notifMonth, notifDay, notifHour, notifMinute;
     private static Bitmap img;
+    private String imgPath;
 
     // FIREBASE
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -139,69 +144,7 @@ public class AddPlant extends AppCompatActivity {
                             .show();
                 } else {
                     addToGarden.setEnabled(false);
-
-                    // ADD TO DATABASE
-                    Map<String, Object> plant = new HashMap<>();
-//                    plant.put("userID", currentUser.getUid());
-                    plant.put("sciName", edtName.getText().toString());
-//                    plant.put("plantID", getNewID());
-                    plant.put("otherNotes", edtNotes.getText().toString());
-                    plant.put("notif", notify);
-                    if (notify) {
-                        plant.put("notifYear", notifYear);
-                        plant.put("notifMonth", notifMonth); // the raw data is month number -1 (april is 3)
-                        plant.put("notifDay", notifDay);
-                        plant.put("notifHour", notifHour);
-                        plant.put("notifMinute", notifMinute);
-                        plant.put("notifFrequency", notifsFrequency.getSelectedItem().toString());
-                    }
-                    plant.put("nickname", edtNickname.getText().toString());
-
-                    // image
-                    try {
-                        addToStorage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Snackbar.make(view, "Error in uploading image. Please try again.", BaseTransientBottomBar.LENGTH_LONG).show();
-                        Log.w("ADD PLANT", "Error adding document to storage", e);
-                    }
-                    String imgPath = "gs://bloomi-81f41.appspot.com/plant-images/" + getFilename() + ".jpg";
-                    plant.put("imgPath", imgPath);
-
-                    // measurement
-                    if (!edtHeight.getText().toString().equals("")) {
-                        plant.put("growthMeasurement", Double.valueOf(edtHeight.getText().toString()));
-                    } else {
-                        plant.put("growthMeasurement", -1); // -1 means no measurement entered
-                    }
-                    plant.put("growthMetric", metric.getSelectedItem().toString());
-                    plant.put("growthDate",
-                            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
-
-                    // add to db under users -> [the user in question] -> plants
-                    db.collection("users").document(currentUser.getUid()).collection("plants").add(plant)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.i("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    Snackbar.make(view, "Added to Garden!", Snackbar.LENGTH_LONG)
-                                            .show();
-                                    Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        public void run() {
-                                            finish();
-                                        }
-                                    }, 1000);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("ADD PLANT", "Error adding document", e);
-                                    Snackbar.make(parent, "Cannot add to Garden.", Snackbar.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
+                    addToDatabase();
                 }
             }
 
@@ -209,50 +152,139 @@ public class AddPlant extends AppCompatActivity {
 
     }
 
+
     private String getFilename() {
         String filename;
-        if (!edtName.getText().toString().equals("")) {
-            filename = edtName.getText().toString();
-        } else {
+        if (!edtNickname.getText().toString().equals("")) {
             filename = edtNickname.getText().toString();
+        } else {
+            filename = edtName.getText().toString();
         }
         return filename;
     }
 
-    // ADDING JPG FILE TO FIREBASE STORAGE
-    private void addToStorage() throws IOException {
+
+    // ADDING JPG FILE AND PLANT TO STORAGE AND DATABASE
+    private void addToDatabase() {
+
+        // letting user know it's in progress
+        Snackbar.make(parent, "Adding " + getFilename() + " to Garden...", Snackbar.LENGTH_LONG).show();
+
         StorageReference storageRef = storage.getReference();
-        StorageReference newImageRef = storageRef.child("plant-images/" + getFilename() + ".jpg");
 
-//        newImageRef.getName().equals(plantImagesRef.getName());    // true
-//        newImageRef.getPath().equals(plantImagesRef.getPath());    // false
-
+        // turning img to a file
         Uri file = Uri.fromFile(bitmapToFile(img, getFilename()));
         StorageReference uploadRef = storageRef.child("plant-images/" + file.getLastPathSegment());
-        UploadTask uploadTask = uploadRef.putFile(file);
 
-        // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Log.w("ADD PLANT", "Error uploading image to Firebase Storage", exception);
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                Log.i("ADD PLANT", "Uploaded image succes!");
-            }
-        });
+        // starting the upload task for the image
+        UploadTask uploadTask = uploadRef.putFile(file);
+        uploadTask
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        Log.i("ADD PLANT IMAGE", "Uploaded image succes!");
+
+                        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.i("URLTASK ISSUE", Objects.requireNonNull(task.getException()).toString());
+                                } else {
+                                    Log.i("URLTASK", "Urltask successful");
+                                }
+
+                                return uploadRef.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    imgPath = downloadUri.toString();
+
+                                    // ADD TO DATABASE
+                                    Map<String, Object> plant = new HashMap<>();
+                                    plant.put("sciName", edtName.getText().toString());
+                                    plant.put("otherNotes", edtNotes.getText().toString());
+                                    plant.put("notif", notify);
+                                    if (notify) {
+                                        plant.put("notifYear", notifYear);
+                                        plant.put("notifMonth", notifMonth); // the raw data is month number -1 (ie. april is 3)
+                                        plant.put("notifDay", notifDay);
+                                        plant.put("notifHour", notifHour);
+                                        plant.put("notifMinute", notifMinute);
+                                        plant.put("notifFrequency", notifsFrequency.getSelectedItem().toString());
+                                    }
+                                    plant.put("nickname", edtNickname.getText().toString());
+                                    plant.put("imgPath", imgPath);
+
+                                    // measurement
+                                    if (!edtHeight.getText().toString().equals("")) {
+                                        plant.put("growthMeasurement", Double.valueOf(edtHeight.getText().toString()));
+                                    } else {
+                                        plant.put("growthMeasurement", -1); // -1 means no measurement entered
+                                    }
+                                    plant.put("growthMetric", metric.getSelectedItem().toString());
+                                    plant.put("growthDate",
+                                            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+
+
+                                    // add to db under users -> [the user in question] -> plants
+                                    db.collection("users").document(currentUser.getUid()).collection("plants").add(plant)
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                    Log.i("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                    Snackbar.make(parent, "Success!", Snackbar.LENGTH_LONG)
+                                                            .show();
+                                                    Handler handler = new Handler();
+                                                    handler.postDelayed(new Runnable() {
+                                                        public void run() {
+                                                            finish();
+                                                        }
+                                                    }, 750);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w("ADD PLANT", "Error adding document", e);
+                                                    Snackbar.make(parent, "Cannot add to Garden.", Snackbar.LENGTH_LONG)
+                                                            .show();
+                                                }
+                                            });
+
+                                } else {
+                                    Log.i("IMG URI", "downloadUri failure");
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.i("URLTASK", "failed");
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        Log.w("ADD PLANT IMAGE", "Error uploading image to Firebase Storage", exception);
+                    }
+                });
 
     }
+
 
     // TURNING A BITMAP TO A FILE TO BE UPLOADED
     private File bitmapToFile(Bitmap bm, String name) {
 
         File filesDir = getFilesDir();
-        File imageFile = new File(filesDir, name + ".jpg");
+        File imageFile = new File(filesDir,
+                currentUser.getUid() + "-" + name + ".jpg");
 
         OutputStream os;
         try {
@@ -265,28 +297,6 @@ public class AddPlant extends AppCompatActivity {
         }
         return imageFile;
     }
-
-
-    // SETTING PLANT ID
-//    private int getNewID() {
-//        int[] count = {0};
-//
-//        db.collection("plants").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-//                                count[0]++;
-//                            }
-//                        } else {
-//                            Log.d("GETDOCUMENTS", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        return count[0]++;
-//    }
 
 
     // EMPTY NAMES
@@ -542,7 +552,7 @@ public class AddPlant extends AppCompatActivity {
         displayEmpty = false;
 
         // LAYOUTS
-        parent = findViewById(R.id.parent);
+        parent = findViewById(R.id.APParent);
 
         // IMAGE BITMAPS
         img = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();

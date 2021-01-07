@@ -54,7 +54,7 @@ public class Dashboard extends Fragment {
         return fragment;
     }
 
-    // ACTIVITY
+    // --------------------------------------------------------------------
 
     private CalendarView calendar;
 
