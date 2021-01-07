@@ -123,8 +123,8 @@ when the field is correctly formatted again
     - deleting
     - editing
     - adding
-    - logout
-    - login
-    - signup
+    - logout (seems all good rn)
+    - login (seems all good rn)
+    - signup (seems all good rn)
     - notifications
 - When app is finished, remove <intent-filter> tag from all activities in Manifest.xml EXCEPT FOR splash activity
