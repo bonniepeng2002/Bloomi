@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class SignUp extends AppCompatActivity {
@@ -32,6 +35,7 @@ public class SignUp extends AppCompatActivity {
     private TextView invalidEmail, invalidPass1, invalidPass2, txtBadEmail, txtBadPass;
     private FirebaseAuth mAuth;
     private final String TAG = "SIGNUP";
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +81,41 @@ public class SignUp extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 // Sign up success
                                                 signUp.setEnabled(false);
-                                                Log.w(TAG, "createUserWithEmail:success");
+                                                Log.i(TAG, "createUserWithEmail:success");
                                                 FirebaseUser user = mAuth.getCurrentUser();
+
+                                                // adding user as an empty document to users
+                                                db.collection("users").document(user.getUid())
+                                                        .set(new HashMap<>())
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.i(TAG, "user document added");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e(TAG, "user document COULD NOT be added");
+                                                            }
+                                                        });
+
+                                                // adding plants subcollection to user document
+                                                db.collection("users").document(user.getUid())
+                                                        .collection("plants")
+                                                        .document("initial plant").set(new HashMap<>())
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.i(TAG, "plants subcollection added");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.e(TAG, "plants subcollection COULD NOT be added");
+                                                            }
+                                                        });
 
                                                 // Go to Home
                                                 Intent intent = new Intent(SignUp.this, MainActivity.class);

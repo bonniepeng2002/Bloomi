@@ -1,6 +1,7 @@
 package com.bonniepeng.bloomi;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -21,13 +35,13 @@ import java.util.Objects;
  */
 public class Garden extends Fragment {
 
-    private int id = 0;
-
+    // STARTING CODE - not used.
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    private final String TAG = "GARDEN INFO";
 
     public Garden() {
         // Required empty public constructor
@@ -51,7 +65,12 @@ public class Garden extends Fragment {
     }
 
 
-    // METHODS
+    // ACTIVITY
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,18 +82,41 @@ public class Garden extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // getting user collection of plants
+        CollectionReference userPlants = db.collection("users")
+                .document(currentUser.getUid()).collection("plants");
+
+
+        // garden list of plants UI
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity());
-        RecyclerView gardenRecycler = Objects.requireNonNull(getView()).findViewById(R.id.gardenRecycler);
+        RecyclerView gardenRecycler = requireView().findViewById(R.id.gardenRecycler);
         gardenRecycler.setAdapter(adapter);
         gardenRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        ArrayList<Plant> plants = new ArrayList<>();
-        while (id < 8) {
-            id += 1;
-            plants.add(new Plant("a", "b", "c", "d", "e", "f", "g", id));
-        }
+        // user's list of plants
+        ArrayList<Map<String, Object>> plants = new ArrayList<>();
 
-        adapter.setPlants(plants);
+        // for every document, get its fields as a Map, and add plantID
+        // adds each document to plants
+        userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        Map<String, Object> plant = document.getData();
+                        plant.put("plantID", document.getId());
+                        plants.add(plant); // adds Map<Key, Value> along with <plantID, id>
+                    }
+                    Log.i(TAG, plants.toString());
+                    adapter.setPlants(plants);
+
+                } else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -84,13 +126,6 @@ public class Garden extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        instantiate();
-
-    }
-
-    private void instantiate() {
-
 
     }
 

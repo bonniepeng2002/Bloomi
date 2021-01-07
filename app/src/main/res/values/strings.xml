@@ -57,6 +57,7 @@
     <string name="update_email">Update Email</string>
     <string name="new_email">New Email:</string>
     <string name="cancel">Cancel</string>
+    <string name="forgot_password">Forgot Password?</string>
 
 
 </resources>

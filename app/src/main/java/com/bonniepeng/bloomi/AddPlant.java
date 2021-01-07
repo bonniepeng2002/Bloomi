@@ -142,7 +142,7 @@ public class AddPlant extends AppCompatActivity {
 
                     // ADD TO DATABASE
                     Map<String, Object> plant = new HashMap<>();
-                    plant.put("userID", currentUser.getUid());
+//                    plant.put("userID", currentUser.getUid());
                     plant.put("sciName", edtName.getText().toString());
 //                    plant.put("plantID", getNewID());
                     plant.put("otherNotes", edtNotes.getText().toString());
@@ -178,12 +178,12 @@ public class AddPlant extends AppCompatActivity {
                     plant.put("growthDate",
                             new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
 
-                    // add to db
-                    db.collection("plants").add(plant)
+                    // add to db under users -> [the user in question] -> plants
+                    db.collection("users").document(currentUser.getUid()).collection("plants").add(plant)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Log.d("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    Log.i("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
                                     Snackbar.make(view, "Added to Garden!", Snackbar.LENGTH_LONG)
                                             .show();
                                     Handler handler = new Handler();
@@ -191,7 +191,7 @@ public class AddPlant extends AppCompatActivity {
                                         public void run() {
                                             finish();
                                         }
-                                    }, 1500);
+                                    }, 1000);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -242,7 +242,7 @@ public class AddPlant extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                Log.w("ADD PLANT", "Uploaded image succes!");
+                Log.i("ADD PLANT", "Uploaded image succes!");
             }
         });
 

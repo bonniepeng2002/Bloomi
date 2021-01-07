@@ -104,15 +104,28 @@ when the field is correctly formatted again
     - sign up activity 
 - removed app action bars in login and signup 
 - user can now effectively log in, change email, change password, and log out.
+- added cancel button in sign up
 
-
-- add cancel button in sign up
-- add forgot password button in login 
+### Jan 7
+- changed database structure
+    - users -> [actual user] -> [all of the user's plants so it's kept in one collection] -> [plant document for each plant]
+    - [actual user] document created on user sign up
+    - plants subcollection created on user signup, initialized with an initial plant document (empty)
+- added forgot password button in login 
     - sends reset password email 
-
+    - displays error if email cannot be sent 
+    - displays verification if email has been sent 
+- when changing password, new pass cannot be old pass.
+- Garden:
+    - for every plant in user's collection in db, add plant document as Map<String, Object> into an ArrayList
+    - Inflated every cardview in Garden with an item from above ArrayList
+    - I was so scared this wasn't ever going to work lol!
     
 ## TODO:
 - set up notifications based on the times indicated by the user
+- add plant
+    - remove image option
+    - change the floating action button to a cardview in garden with a plus sign in the middle?
 - redesign Add Plant activity to look like Plant Card View 
 - make edit plant activity that's connected to db
 - make dashboard based on db
@@ -127,4 +140,5 @@ when the field is correctly formatted again
     - login (seems all good rn)
     - signup (seems all good rn)
     - notifications
+- review constraints so that it looks the ~same on all devices
 - When app is finished, remove <intent-filter> tag from all activities in Manifest.xml EXCEPT FOR splash activity

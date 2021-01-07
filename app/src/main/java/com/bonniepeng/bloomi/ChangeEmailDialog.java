@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -108,14 +109,20 @@ public class ChangeEmailDialog extends Dialog {
                                                             ((Globals) context.getApplicationContext()).setRefreshSettings(true);
                                                             Log.i("GLOBAL inside change email", Boolean.toString(((Globals) context.getApplicationContext()).isRefreshSettings()));
 
-                                                            Snackbar.make(view, "Email successfully changed.", Snackbar.LENGTH_LONG)
-                                                                    .show();
+                                                            txtBadEmail.setText("Email successfully changed");
+                                                            // TODO: change this below color to new purple_700 if you change it
+                                                            txtBadEmail.setTextColor(Color.parseColor("#048509"));
+                                                            txtBadEmail.setVisibility(View.VISIBLE);
+
                                                             Handler handler = new Handler();
                                                             handler.postDelayed(new Runnable() {
                                                                 public void run() {
+                                                                    txtBadEmail.setVisibility(View.GONE);
+                                                                    txtBadEmail.setTextColor(Color.parseColor("#F44336"));
                                                                     dismiss();
                                                                 }
                                                             }, 1000);
+
                                                         } else {
                                                             try {
                                                                 throw Objects.requireNonNull(task.getException());
@@ -127,6 +134,8 @@ public class ChangeEmailDialog extends Dialog {
                                                                 badEmail("Email is already in use.");
 
                                                             } catch (Exception e) {
+                                                                badEmail("Your account has been deleted, and therefore cannot change email." +
+                                                                        "\nIf you did not delete your account, please contact support immediately.");
                                                                 Log.e("CHANGE EMAIL", Objects.requireNonNull(e.getMessage()));
                                                             }
                                                         }

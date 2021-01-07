@@ -9,15 +9,18 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreen extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     // CHECKING IF USER IS ALREADY SIGNED IN
@@ -25,8 +28,9 @@ public class SplashScreen extends AppCompatActivity {
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser currentUser = mAuth.getCurrentUser();
+
             if (currentUser != null) {
-                Log.i("LOGIN STATUS", "user is signed in as "+currentUser.getUid());
+                Log.i("LOGIN STATUS", "user is signed in as " + currentUser.getUid());
                 Intent intent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(intent);
             } else {

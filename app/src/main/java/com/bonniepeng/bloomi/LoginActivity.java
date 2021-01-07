@@ -3,6 +3,9 @@ package com.bonniepeng.bloomi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +33,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtEmail, edtPass;
-    private Button btnLogin, btnSignup;
+    private Button btnLogin, btnSignup, forgotPass;
     private TextView txtError;
     private FirebaseAuth mAuth;
 
@@ -101,6 +104,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        // FORGOT PASSWORD
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ForgotPassDialog fpd = new ForgotPassDialog(LoginActivity.this);
+                InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
+                fpd.getWindow().setBackgroundDrawable(inset);
+                fpd.show();
+
+            }
+        });
+
+
         // SIGNUP
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         // BUTTONS
         btnLogin = findViewById(R.id.btnLILogin);
         btnSignup = findViewById(R.id.btnSignUp);
+        forgotPass = findViewById(R.id.btnForgotPass);
 
         // TEXTVIEWS
         txtError = findViewById(R.id.txtError);

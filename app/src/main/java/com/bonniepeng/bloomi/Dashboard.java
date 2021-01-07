@@ -2,11 +2,17 @@ package com.bonniepeng.bloomi;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+
+import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +21,8 @@ import android.view.ViewGroup;
  */
 public class Dashboard extends Fragment {
 
+
+    // THIS CAME WITH THE CODE. not sure what it does.
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -46,6 +54,10 @@ public class Dashboard extends Fragment {
         return fragment;
     }
 
+    // ACTIVITY
+
+    private CalendarView calendar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +65,35 @@ public class Dashboard extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        instantiate();
+
+        // CALENDAR
+        // setting current date as current date
+        calendar.setDate(Calendar.getInstance().getTimeInMillis(), false, true);
+
+        // TODO: displaying all notification dates as tiny little dots or something
+
+        // TODO: on date click, bring up dialog of DATE, TIME, PLANTS TO BE WATERED
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+            }
+        });
+
+        // TODO: on plant click, brings user to plant card view?
+
+    }
+
+    private void instantiate() {
+        // CALENDARVIEWS
+        calendar = requireView().findViewById(R.id.upcomingNotifs);
     }
 
     @Override

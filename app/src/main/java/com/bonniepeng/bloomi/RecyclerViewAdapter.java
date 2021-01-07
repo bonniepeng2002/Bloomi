@@ -3,6 +3,7 @@ package com.bonniepeng.bloomi;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.model.Document;
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<Plant> plants = new ArrayList<>();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private ArrayList<Map<String, Object>> plants = new ArrayList<>();
     private Context context;
+    private final String TAG = "ADAPTER INFLATE";
 
     public RecyclerViewAdapter(Context context) {
         this.context = context;
@@ -38,15 +51,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.sciName.setText(plants.get(i).getSciName());
-        viewHolder.txtType.setText(Integer.toString(plants.get(i).getId()));
-        // set image here when we have database
+        // TODO: set name and image
+        Map<String, Object> currentPlant = plants.get(i);
+        Log.i(TAG, currentPlant.toString());
 
+        viewHolder.sciName.setText(currentPlant.get("sciName").toString()); // get value with key "sciName"
+        viewHolder.txtType.setText(currentPlant.get("nickname").toString());
+
+        // ON CARD CLICK
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PlantCardView.class);
-                intent.putExtra("PLANT_ID", plants.get(i).getId());
+                // TODO: change based on db info
+                intent.putExtra("PLANT_ID", currentPlant.get("plantID").toString());
                 view.getContext().startActivity(intent);
             }
         });
@@ -58,9 +76,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return plants.size();
     }
 
-    public void setPlants(ArrayList<Plant> plants) {
+    public void setPlants(ArrayList<Map<String, Object>> plants) {
         this.plants = plants;
         notifyDataSetChanged();
+        Log.i("IN SET PLANTS", plants.toString());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
