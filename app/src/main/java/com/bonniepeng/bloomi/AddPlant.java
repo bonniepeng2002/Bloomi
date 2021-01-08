@@ -44,6 +44,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,12 +60,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -221,22 +218,21 @@ public class AddPlant extends AppCompatActivity {
                                     }
                                     plant.put("nickname", edtNickname.getText().toString());
                                     plant.put("imgPath", imgPath);
+                                    plant.put("growthMetric", metric.getSelectedItem().toString());
 
                                     // measurement
-                                    // TODO: this put true inside database for some reason??????
+                                    // added as <Date + Time, Measurement>
+                                    Map<String, Float> m = new HashMap<String, Float>();
                                     if (!edtHeight.getText().toString().equals("")) {
-                                        plant.put("growthMeasurement",
-                                                new ArrayList<Float>()
-                                                        .add(Float.valueOf(
-                                                                new DecimalFormat("##.##").format
-                                                                        (Float.valueOf(edtHeight.getText().toString())))));
+                                        m.put(Timestamp.now().toDate().toString(),
+                                                (Float.valueOf(new DecimalFormat("##.##").format
+                                                        (Float.valueOf(edtHeight.getText().toString())))));
+                                        plant.put("growthMeasurement", m);
+
                                     } else {
-                                        plant.put("growthMeasurement",
-                                                new ArrayList<Float>().add(Float.valueOf("0"))); // 0 means no measurement entered
+                                        m.put(Timestamp.now().toDate().toString(), Float.valueOf("0"));
+                                        plant.put("growthMeasurement", m);
                                     }
-                                    plant.put("growthMetric", metric.getSelectedItem().toString());
-                                    plant.put("growthDate",
-                                            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
 
 
                                     // add to db under users -> [the user in question] -> plants

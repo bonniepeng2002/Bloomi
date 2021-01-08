@@ -124,8 +124,16 @@ when the field is correctly formatted again
     - loads plant image onto the small cardview from database
 - When any plant is clicked in garden, all of the plant's data from database is passed into the PlantCardView Activity 
     - image, nickname, type, other notes 
+- Measurements:
+    - when new plant is added with measurements, the plant document creates a new map: <[DATE ADDED], [MEASUREMENT] to make generating the graph more accurate
+    - When a new measurement is added in AddMeasurementDialog:
+        - PlantCardView's "last measurement" text is updated
+        - New measurement is added to database
+- changed the app's core colors
     
 ## TODO:
+- figure out metric stuff
+- get latest measurement from date and time 
 - make is so that the nicknames are unique
 - set up notifications based on the times indicated by the user
 - add plant

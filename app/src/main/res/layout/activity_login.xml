@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Password:"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_700"
         app:layout_constraintEnd_toEndOf="@+id/txtEmail"
         app:layout_constraintTop_toTopOf="@+id/edtLIPass" />
 
@@ -94,7 +94,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="70dp"
         android:text="Email:"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_700"
         app:layout_constraintEnd_toStartOf="@+id/edtLIEmail"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,9 +16,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingTop="11dp"
+            android:paddingEnd="10dp">
 
             <TextView
                 android:id="@+id/title"
@@ -54,9 +54,10 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#18C21E"
-            app:tabSelectedTextColor="#AAF1AD"
-            app:tabTextColor="#FFFFFF" />
+            android:background="#FFFFFF"
+            android:paddingTop="5dp"
+            app:tabSelectedTextColor="@color/purple_700"
+            app:tabTextColor="@color/purple_500" />
     </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -65,6 +66,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_add_plant"
-        android:contentDescription="ADD" />
+        android:contentDescription="ADD"
+        app:srcCompat="@drawable/ic_add_plant" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#0EEB3A
-    </color> <!--green (add plant button & banner)0EEB71, 0FB552, orig = 0FED19-->
-    <color name="purple_700">#048509</color> <!--dark green (text) -->
-    <color name="teal_200">#06DF0F</color> <!--forest (floating action button)-->
+    <color name="purple_500">#009C4B</color> <!-- green (add plant button & banner) orig = 0FED19-->
+    <color name="purple_700">#1CDD25</color> <!--dark green (text) -->
+    <color name="teal_200">#1BDD23</color> <!--forest (floating action button)-->
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class AddMeasureDialog extends Dialog {
 
@@ -23,7 +25,6 @@ public class AddMeasureDialog extends Dialog {
     private TextView txtEmpty;
     private Spinner metric;
     private EditText newMeasurement;
-    private FirebaseAuth mAuth;
 
     public AddMeasureDialog(Activity a) {
         super(a);
@@ -41,26 +42,9 @@ public class AddMeasureDialog extends Dialog {
         btnOk = findViewById(R.id.btnOk);
         btnCancel = findViewById(R.id.btnCancel);
         metric = findViewById(R.id.newMetric);
-        newMeasurement = findViewById(R.id.edtNewEmail);
+        newMeasurement = findViewById(R.id.edtNewMeasure);
         txtEmpty = findViewById(R.id.txtEmpty);
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        // OK
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View view) {
-                if (newMeasurement.getText().toString().equals("")) {
-                    txtEmpty.setVisibility(View.VISIBLE);
-                } else {
-                    // TODO: add new data to database
-                    // TODO: make sure the data changes in PlantCardView.java too
-                    Toast.makeText(activity, "success for now", Toast.LENGTH_SHORT).show();
-                    dismiss();
-                }
-            }
-        });
 
         // CANCEL
         btnCancel.setOnClickListener(new View.OnClickListener() {
