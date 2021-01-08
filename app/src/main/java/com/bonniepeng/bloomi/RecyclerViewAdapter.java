@@ -91,7 +91,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .into(viewHolder.img);
 
 
-        // ON CARD CLICK
     }
 
     @Override

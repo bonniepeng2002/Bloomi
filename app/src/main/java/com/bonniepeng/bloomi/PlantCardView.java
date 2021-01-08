@@ -26,9 +26,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.jjoe64.graphview.GraphView;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 public class PlantCardView extends AppCompatActivity {
 
@@ -72,8 +82,20 @@ public class PlantCardView extends AppCompatActivity {
         boolean notif = intent.getBooleanExtra("notif", false);
         String notes = intent.getStringExtra("otherNotes");
         String growthDate = intent.getStringExtra("growthDate");
-        Map<String, Float> measurements = (Map<String, Float>) bundle.get("growthMeasurement");
-        Log.i("GETTING EXTRAS", String.valueOf(bundle));
+        int notifDay = intent.getIntExtra("notifDay", -1);
+        int notifMonth = intent.getIntExtra("notifMonth", -1);
+        int notifYear = intent.getIntExtra("notifYear", -1);
+        int notifHour = intent.getIntExtra("notifHour", -1);
+        int notifMinute = intent.getIntExtra("notifMinute", -1);
+        String notifFrequency = intent.getStringExtra("notifFrequency");
+        Map<String, Double> measurements = (HashMap<String, Double>) bundle.get("growthMeasurement");
+        TreeMap<String, Double> sortedMeasurements = new TreeMap<>(new DateComparator());
+        for (Map.Entry<String, Double> entry : measurements.entrySet()) {
+            sortedMeasurements.put(entry.getKey(), entry.getValue());
+        }
+
+        Log.i("EXTRAS", String.valueOf(bundle));
+        Log.i("SORTED MEASUREMENTS", measurements.toString());
 
 
         // SETTING DATA
@@ -91,10 +113,19 @@ public class PlantCardView extends AppCompatActivity {
                 .centerCrop()
                 .into(plantImage);
         plantNotes.setText(notes);
-        // find latest measurement by date and time
-        String latestMeasurement = "";
+        // set latest measurement to latest measurement in database
+        String latestMeasurement = String.valueOf(sortedMeasurements.get(sortedMeasurements.lastKey()));
         Log.i("LATEST MEASUREMENT VALUE", latestMeasurement);
-//        plantMeasurement.setText(latestMeasurement);
+        plantMeasurement.setText(latestMeasurement + " " + metric);
+        plantFrequency.setText(notifFrequency);
+        if (notifFrequency.equals("")) {
+            plantTime.setText("");
+            plantNextNotif.setText("");
+            // TODO: dont show "at" and "next up"
+            // TODO: display "none"
+        } else {
+            // TODO: show all info
+        }
 
 
         // GO BACK
@@ -105,12 +136,11 @@ public class PlantCardView extends AppCompatActivity {
             }
         });
 
+
         // ADD A MEASUREMENT
         plantAddMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Bundle args = new Bundle();
-//                args.putString("ID", plantID);
 
                 AddMeasureDialog cdd = new AddMeasureDialog(PlantCardView.this);
                 InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
@@ -129,13 +159,13 @@ public class PlantCardView extends AppCompatActivity {
                         if (edtMeasurement.equals("")) {
                             txtEmpty.setVisibility(View.VISIBLE);
                         } else {
-                            float newMeasurement =
-                                    Float.parseFloat(new DecimalFormat("##.##").format
-                                            (Float.valueOf(edtMeasurement)));
+                            double newMeasurement =
+                                    Double.parseDouble(new DecimalFormat("##.##").format
+                                            (Double.valueOf(edtMeasurement)));
 
                             plantMeasurement.setText(newMeasurement + " " + newMetric);
                             // TODO: convert metric to first ever metric???
-                            measurements.put(Timestamp.now().toDate().toString(), newMeasurement);
+                            measurements.put((new LocalDate()).toString(), newMeasurement);
 
                             // update database
                             db.collection("users")
@@ -150,13 +180,27 @@ public class PlantCardView extends AppCompatActivity {
                     }
                 });
 
-//                  this would be easiest way to exchange data between dialog and activity. But it is ugly.
-//                AlertDialog.Builder cdd = new AlertDialog.Builder(PlantCardView.this)
-//                        .setView(R.layout.add_measurement_dialog);
-//                cdd.show();
             }
         });
 
+    }
+
+    // to sort measurement by date
+    static class DateComparator implements Comparator<String>, Serializable {
+
+        public int compare(String date1, String date2) {
+            int date1Int = convertDateToInteger(date1);
+            int date2Int = convertDateToInteger(date2);
+
+            return date1Int - date2Int;
+        }
+
+        // converts date string with format YYYY-MM-DD to integer of value YYYYMMDD
+        private int convertDateToInteger(String date) {
+            String[] tokens = date.split("-");
+
+            return Integer.parseInt(tokens[0] + tokens[1] + tokens[2]);
+        }
     }
 
     private void instantiate() {

@@ -130,6 +130,13 @@ when the field is correctly formatted again
         - PlantCardView's "last measurement" text is updated
         - New measurement is added to database
 - changed the app's core colors
+
+### Jan 8
+- Implemented LinkedMap from Apache's Common Collections to store all plant measurements in order.
+- Scraped LinkedMap logic since Firebase does not support
+- Used Database References to sort all measurements by date!!
+    - Most recent comes last 
+    - "Latest measurement" on Plant Card View corresponds to this recent measurement 
     
 ## TODO:
 - figure out metric stuff

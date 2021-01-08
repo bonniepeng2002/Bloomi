@@ -34,6 +34,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -53,7 +54,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.apache.commons.collections4.OrderedMap;
+import org.apache.commons.collections4.OrderedMapIterator;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,9 +67,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class AddPlant extends AppCompatActivity {
 
@@ -215,22 +224,29 @@ public class AddPlant extends AppCompatActivity {
                                         plant.put("notifHour", notifHour);
                                         plant.put("notifMinute", notifMinute);
                                         plant.put("notifFrequency", notifsFrequency.getSelectedItem().toString());
+                                    } else {
+                                        plant.put("notifYear", -1);
+                                        plant.put("notifMonth", -1); // the raw data is month number -1 (ie. april is 3)
+                                        plant.put("notifDay", -1);
+                                        plant.put("notifHour", -1);
+                                        plant.put("notifMinute", -1);
+                                        plant.put("notifFrequency", "");
                                     }
                                     plant.put("nickname", edtNickname.getText().toString());
                                     plant.put("imgPath", imgPath);
                                     plant.put("growthMetric", metric.getSelectedItem().toString());
 
                                     // measurement
-                                    // added as <Date + Time, Measurement>
-                                    Map<String, Float> m = new HashMap<String, Float>();
+                                    // added as <Date as String, Measurement>
+                                    Map<String, Double> m = new HashMap<String, Double>();
                                     if (!edtHeight.getText().toString().equals("")) {
-                                        m.put(Timestamp.now().toDate().toString(),
-                                                (Float.valueOf(new DecimalFormat("##.##").format
-                                                        (Float.valueOf(edtHeight.getText().toString())))));
+                                        m.put((new LocalDate()).toString(),
+                                                (Double.valueOf(new DecimalFormat("##.##").format
+                                                        (Double.valueOf(edtHeight.getText().toString())))));
                                         plant.put("growthMeasurement", m);
 
                                     } else {
-                                        m.put(Timestamp.now().toDate().toString(), Float.valueOf("0"));
+                                        m.put((new LocalDate()).toString(), Double.valueOf("0"));
                                         plant.put("growthMeasurement", m);
                                     }
 
