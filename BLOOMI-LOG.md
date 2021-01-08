@@ -122,6 +122,8 @@ when the field is correctly formatted again
     - I was so scared this wasn't ever going to work lol!
     - after adding a new plant, list of plants refresh
     - loads plant image onto the small cardview from database
+- When any plant is clicked in garden, all of the plant's data from database is passed into the PlantCardView Activity 
+    - image, nickname, type, other notes 
     
 ## TODO:
 - make is so that the nicknames are unique

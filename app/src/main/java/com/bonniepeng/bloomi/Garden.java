@@ -1,6 +1,8 @@
 package com.bonniepeng.bloomi;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.model.Document;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +36,7 @@ import java.util.Objects;
  * Use the {@link Garden#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Garden extends Fragment {
+public class Garden extends Fragment implements RecyclerOnItemClick {
 
     // STARTING CODE - not used.
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,6 +73,9 @@ public class Garden extends Fragment {
     FirebaseUser currentUser = mAuth.getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    // user's list of plants
+    private ArrayList<Map<String, Object>> plants = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,19 +86,18 @@ public class Garden extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        plants.clear();
+
         // getting user collection of plants
         CollectionReference userPlants = db.collection("users")
                 .document(currentUser.getUid()).collection("plants");
 
-
         // garden list of plants UI
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), this);
         RecyclerView gardenRecycler = requireView().findViewById(R.id.gardenRecycler);
         gardenRecycler.setAdapter(adapter);
         gardenRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
-        // user's list of plants
-        ArrayList<Map<String, Object>> plants = new ArrayList<>();
 
         // for every document, get its fields as a Map, and add plantID
         // adds each document to plants
@@ -131,4 +136,25 @@ public class Garden extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view, int position) {
+        Map<String, Object> currentPlant = plants.get(position);
+        Intent intent = new Intent(getActivity(), PlantCardView.class);
+
+        // pass all plant data to PlantCardView
+        for (Map.Entry<String, Object> entry : currentPlant.entrySet())
+            intent.putExtra(entry.getKey(), (Serializable) entry.getValue());
+
+        // for debug purposes
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                Log.i("PLANT CLICK INTENT", key + " : " + (bundle.get(key) != null ? bundle.get(key) : "NULL"));
+            }
+        }
+
+        startActivity(intent);
+
+
+    }
 }

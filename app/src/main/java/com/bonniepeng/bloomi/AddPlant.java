@@ -58,7 +58,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -221,10 +223,16 @@ public class AddPlant extends AppCompatActivity {
                                     plant.put("imgPath", imgPath);
 
                                     // measurement
+                                    // TODO: this put true inside database for some reason??????
                                     if (!edtHeight.getText().toString().equals("")) {
-                                        plant.put("growthMeasurement", Double.valueOf(edtHeight.getText().toString()));
+                                        plant.put("growthMeasurement",
+                                                new ArrayList<Float>()
+                                                        .add(Float.valueOf(
+                                                                new DecimalFormat("##.##").format
+                                                                        (Float.valueOf(edtHeight.getText().toString())))));
                                     } else {
-                                        plant.put("growthMeasurement", -1); // -1 means no measurement entered
+                                        plant.put("growthMeasurement",
+                                                new ArrayList<Float>().add(Float.valueOf("0"))); // 0 means no measurement entered
                                     }
                                     plant.put("growthMetric", metric.getSelectedItem().toString());
                                     plant.put("growthDate",

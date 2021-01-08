@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,20 +38,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<Map<String, Object>> plants = new ArrayList<>();
     private Context context;
     private final String TAG = "ADAPTER INFLATE";
+    private RecyclerOnItemClick recyclerOnItemClick;
 
-    public RecyclerViewAdapter(Context context) {
+
+    public RecyclerViewAdapter(Context context, RecyclerOnItemClick recyclerOnItemClick) {
         this.context = context;
+        this.recyclerOnItemClick = recyclerOnItemClick;
     }
 
     public RecyclerViewAdapter() {
     }
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.garden_item, viewGroup, false);
-        ViewHolder holder = new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view, recyclerOnItemClick);
+
         return holder;
     }
 
@@ -65,6 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String sciName = currentPlant.get("sciName").toString(); // get value with key "sciName"
         String nickname = currentPlant.get("nickname").toString();
         String imgPath = currentPlant.get("imgPath").toString();
+
 
         // if type is empty, set big name to nickname
         // if both names exist, nickname takes precedence
@@ -85,16 +92,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         // ON CARD CLICK
-        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PlantCardView.class);
-                // TODO: change based on db info
-                intent.putExtra("PLANT_ID", currentPlant.get("plantID").toString());
-                view.getContext().startActivity(intent);
-            }
-        });
-
     }
 
     @Override
@@ -108,20 +105,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.i("IN SET PLANTS", plants.toString());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView sciName;
         private final TextView txtType;
         private final CardView parent;
         private final ImageView img;
+        private RecyclerView recycler;
+        RecyclerOnItemClick recyclerOnItemClick;
 
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(@NonNull View itemView, RecyclerOnItemClick recyclerOnItemClick) {
             super(itemView);
             parent = itemView.findViewById(R.id.parent);
             sciName = (TextView) itemView.findViewById(R.id.plantName);
             txtType = itemView.findViewById(R.id.txtType);
             img = itemView.findViewById(R.id.plantImage);
+            recycler = itemView.findViewById(R.id.gardenRecycler);
+
+            this.recyclerOnItemClick = recyclerOnItemClick;
+            itemView.setOnClickListener(this);
+
         }
 
+        @Override
+        public void onClick(View view) {
+            recyclerOnItemClick.onClick(view, getAdapterPosition());
+        }
     }
 }

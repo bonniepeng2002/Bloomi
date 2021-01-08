@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="16dp"
                 android:text="Plant Nickname (plant type if none)"
                 android:textAlignment="center"
                 android:textSize="24sp"
@@ -104,12 +104,11 @@
                 android:id="@+id/plantWatering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="36dp"
                 android:text="@string/watering_notifs"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.041"
-                app:layout_constraintStart_toStartOf="@+id/plantName"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/plantType" />
 
             <TextView
@@ -236,7 +235,7 @@
                 android:id="@+id/plantNotes"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="40dp"
                 android:lineSpacingExtra="5sp"
                 android:text="- Place in sunlight \n- Keep away from cats \n- Brag about to friends"
