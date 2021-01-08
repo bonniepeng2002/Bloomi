@@ -34,7 +34,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -45,7 +44,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -54,11 +52,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.apache.commons.collections4.OrderedMap;
-import org.apache.commons.collections4.OrderedMapIterator;
-import org.apache.commons.collections4.map.LinkedMap;
 import org.jetbrains.annotations.NotNull;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import java.io.File;
@@ -67,16 +61,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class AddPlant extends AppCompatActivity {
 
-    private TextView txtTitle, txtSciName, txtNickname, txtHeight, txtNotes, edtNameEmpty, edtNicknameEmpty, txtNotifs;
+    private TextView edtNameEmpty, edtNicknameEmpty;
     @SuppressLint("StaticFieldLeak")
     private static TextView txtTime, txtDate;
     private EditText edtName, edtNickname, edtHeight, edtNotes;
@@ -176,7 +167,7 @@ public class AddPlant extends AppCompatActivity {
     private void addToDatabase() {
 
         // letting user know it's in progress
-        Snackbar.make(parent, "Adding " + getFilename() + " to Garden...", Snackbar.LENGTH_LONG).show();
+        Toast.makeText(this, "Adding " + getFilename() + " to Garden...", Toast.LENGTH_SHORT).show();
 
         StorageReference storageRef = storage.getReference();
 
@@ -238,15 +229,15 @@ public class AddPlant extends AppCompatActivity {
 
                                     // measurement
                                     // added as <Date as String, Measurement>
-                                    Map<String, Double> m = new HashMap<String, Double>();
+                                    Map<String, Long> m = new HashMap<String, Long>();
                                     if (!edtHeight.getText().toString().equals("")) {
                                         m.put((new LocalDate()).toString(),
-                                                (Double.valueOf(new DecimalFormat("##.##").format
-                                                        (Double.valueOf(edtHeight.getText().toString())))));
+                                                (Long.valueOf(new DecimalFormat("##.##").format
+                                                        (Long.valueOf(edtHeight.getText().toString())))));
                                         plant.put("growthMeasurement", m);
 
                                     } else {
-                                        m.put((new LocalDate()).toString(), Double.valueOf("0"));
+                                        m.put((new LocalDate()).toString(), Long.valueOf("0"));
                                         plant.put("growthMeasurement", m);
                                     }
 
@@ -257,8 +248,7 @@ public class AddPlant extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(DocumentReference documentReference) {
                                                     Log.i("ADD PLANT", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                    Snackbar.make(parent, "Success!", Snackbar.LENGTH_LONG)
-                                                            .show();
+                                                    Toast.makeText(AddPlant.this, "Success!", Toast.LENGTH_SHORT).show();
                                                     Handler handler = new Handler();
                                                     handler.postDelayed(new Runnable() {
                                                         public void run() {
@@ -538,12 +528,6 @@ public class AddPlant extends AppCompatActivity {
     //INSTANTIATING
     private void instantiate() {
         // TEXTVIEWS
-        txtTitle = findViewById(R.id.txtTitle);
-        txtSciName = findViewById(R.id.txtPlantType);
-        txtNickname = findViewById(R.id.txtNickname);
-        txtHeight = findViewById(R.id.txtHeight);
-        txtNotes = findViewById(R.id.txtNotes);
-        txtNotifs = findViewById(R.id.txtNotifs);
         txtTime = findViewById(R.id.txtTime);
         txtDate = findViewById(R.id.txtDate);
         edtNameEmpty = findViewById(R.id.edtNameEmpty);

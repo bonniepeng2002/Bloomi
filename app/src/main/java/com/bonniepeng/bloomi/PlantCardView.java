@@ -16,28 +16,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
-import com.google.firebase.Timestamp;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class PlantCardView extends AppCompatActivity {
@@ -49,12 +55,11 @@ public class PlantCardView extends AppCompatActivity {
     // TODO: implement "edit" activity
 
     private TextView plantName, plantType, plantWatering, plantFrequency, at,
-            plantTime, plantNext, plantNextNotif, plantGrowth, plantLastMeasurement, plantMeasurement,
-            plantOtherNotes, plantNotes;
+            plantTime, plantNext, plantNextNotif, plantGrowth, plantMeasurement, plantNotes;
     private Button btnEdit, btnBack, plantAddMeasurement;
-    private CardView imageWrapper;
     private ImageView plantImage;
     private GraphView graph;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -88,18 +93,19 @@ public class PlantCardView extends AppCompatActivity {
         int notifHour = intent.getIntExtra("notifHour", -1);
         int notifMinute = intent.getIntExtra("notifMinute", -1);
         String notifFrequency = intent.getStringExtra("notifFrequency");
-        Map<String, Double> measurements = (HashMap<String, Double>) bundle.get("growthMeasurement");
-        TreeMap<String, Double> sortedMeasurements = new TreeMap<>(new DateComparator());
-        for (Map.Entry<String, Double> entry : measurements.entrySet()) {
+        Map<String, Long> measurements = (HashMap<String, Long>) bundle.get("growthMeasurement");
+
+        SortedMap<String, Long> sortedMeasurements = new TreeMap<>(new DateComparator());
+        for (Map.Entry<String, Long> entry : measurements.entrySet()) {
             sortedMeasurements.put(entry.getKey(), entry.getValue());
         }
 
         Log.i("EXTRAS", String.valueOf(bundle));
-        Log.i("SORTED MEASUREMENTS", measurements.toString());
+        Log.i("SORTED MEASUREMENTS", sortedMeasurements.toString());
 
 
         // SETTING DATA
-        if (!nickname.equals("") && nickname != null) {
+        if (!nickname.equals("")) {
             plantName.setText(nickname);
             plantType.setText(sciName);
         } else {
@@ -125,7 +131,55 @@ public class PlantCardView extends AppCompatActivity {
             // TODO: display "none"
         } else {
             // TODO: show all info
+            plantTime.setText(notifHour + " : " + notifMinute);
         }
+
+        // graph
+
+        ArrayList<DataPoint> measurementsData = new ArrayList<>();
+        Iterator<Map.Entry<String, Long>> it = sortedMeasurements.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Long> pair = it.next();
+            Date date = null;
+            try {
+                date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(pair.getKey());
+                measurementsData.add(new DataPoint(date, pair.getValue()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error generating graph.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        Log.i("MEASUREMENTS DATA", measurementsData.toString());
+        Log.i("PASSING INTO GRAPH", Arrays.toString(measurementsData.toArray(new DataPoint[0])));
+
+        LineGraphSeries<DataPoint> series =
+                new LineGraphSeries<DataPoint>
+                        (measurementsData.toArray(new DataPoint[0]));
+
+        series.setColor(R.color.purple_700);
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Height (" + metric + ")");
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Date");
+
+        // activate horizontal zooming and scrolling
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScalableY(true);
+        graph.getViewport().setScrollableY(true);
+
+        // set manual x bounds to have nice steps
+
+//        graph.getViewport().setMinX(measurementsData.get(0).getX()); // earliest date
+//        graph.getViewport().setMaxX(measurementsData.get(measurementsData.size() - 1).getX(); // latest date
+//        double minY = measurementsData.get(0).getY()/5;
+//        double maxY = measurementsData.get(0).getY()*5;
+//        graph.getViewport().setMinY(minY);
+//        graph.getViewport().setMaxY(maxY);
+//        graph.getViewport().setXAxisBoundsManual(true);
+
+        // as we use dates as labels, the human rounding to nice readable numbers is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.addSeries(series);
 
 
         // GO BACK
@@ -159,15 +213,17 @@ public class PlantCardView extends AppCompatActivity {
                         if (edtMeasurement.equals("")) {
                             txtEmpty.setVisibility(View.VISIBLE);
                         } else {
-                            double newMeasurement =
-                                    Double.parseDouble(new DecimalFormat("##.##").format
-                                            (Double.valueOf(edtMeasurement)));
+                            long newMeasurement =
+                                    Long.parseLong(new DecimalFormat("##.##").format
+                                            (Long.valueOf(edtMeasurement)));
 
                             plantMeasurement.setText(newMeasurement + " " + newMetric);
                             // TODO: convert metric to first ever metric???
                             measurements.put((new LocalDate()).toString(), newMeasurement);
 
                             // update database
+                            assert currentUser != null;
+                            assert plantID != null;
                             db.collection("users")
                                     .document(currentUser.getUid())
                                     .collection("plants")
@@ -215,18 +271,13 @@ public class PlantCardView extends AppCompatActivity {
         plantNext = findViewById(R.id.plantNext);
         plantNextNotif = findViewById(R.id.plantNextNotif);
         plantGrowth = findViewById(R.id.plantGrowth);
-        plantLastMeasurement = findViewById(R.id.plantLastMeasurement);
         plantMeasurement = findViewById(R.id.plantMeasurement);
-        plantOtherNotes = findViewById(R.id.plantOtherNotes);
         plantNotes = findViewById(R.id.plantNotes);
 
         // BUTTONS
         btnBack = findViewById(R.id.btnBack);
         btnEdit = findViewById(R.id.btnEdit);
         plantAddMeasurement = findViewById(R.id.plantAddMeasurement);
-
-        // CARDVIEWS
-        imageWrapper = findViewById(R.id.imageWrapper);
 
         // IMAGEVIEWS
         plantImage = findViewById(R.id.plantImage);

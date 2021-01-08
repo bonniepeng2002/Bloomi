@@ -2,18 +2,14 @@ package com.bonniepeng.bloomi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +19,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -104,23 +97,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.i("IN SET PLANTS", plants.toString());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final TextView sciName;
         private final TextView txtType;
-        private final CardView parent;
         private final ImageView img;
-        private RecyclerView recycler;
         RecyclerOnItemClick recyclerOnItemClick;
 
 
         public ViewHolder(@NonNull View itemView, RecyclerOnItemClick recyclerOnItemClick) {
             super(itemView);
-            parent = itemView.findViewById(R.id.parent);
             sciName = (TextView) itemView.findViewById(R.id.plantName);
             txtType = itemView.findViewById(R.id.txtType);
             img = itemView.findViewById(R.id.plantImage);
-            recycler = itemView.findViewById(R.id.gardenRecycler);
 
             this.recyclerOnItemClick = recyclerOnItemClick;
             itemView.setOnClickListener(this);
