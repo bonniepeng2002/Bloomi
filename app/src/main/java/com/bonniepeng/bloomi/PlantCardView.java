@@ -11,19 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
@@ -31,7 +29,6 @@ import com.squareup.picasso.Picasso;
 import org.joda.time.LocalDate;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,6 +73,7 @@ public class PlantCardView extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
+
         // INTENT
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -94,6 +92,22 @@ public class PlantCardView extends AppCompatActivity {
         int notifMinute = intent.getIntExtra("notifMinute", -1);
         String notifFrequency = intent.getStringExtra("notifFrequency");
         Map<String, Long> measurements = (HashMap<String, Long>) bundle.get("growthMeasurement");
+
+        // updating measurements in real time
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+//        DatabaseReference growthRef = myRef.child("users/" + currentUser.getUid() + "/plants/" + plantID);
+//        growthRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                measurements = snapshot.getValue(HashMap.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
 
         SortedMap<String, Long> sortedMeasurements = new TreeMap<>(new DateComparator());
         for (Map.Entry<String, Long> entry : measurements.entrySet()) {
@@ -144,6 +158,7 @@ public class PlantCardView extends AppCompatActivity {
             try {
                 date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(pair.getKey());
                 measurementsData.add(new DataPoint(date, pair.getValue()));
+                Log.i("DATE", date.toString());
             } catch (ParseException e) {
                 e.printStackTrace();
                 Toast.makeText(this, "Error generating graph.", Toast.LENGTH_SHORT).show();
@@ -158,8 +173,12 @@ public class PlantCardView extends AppCompatActivity {
                         (measurementsData.toArray(new DataPoint[0]));
 
         series.setColor(R.color.purple_700);
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(PlantCardView.this));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
         graph.getGridLabelRenderer().setVerticalAxisTitle("Height (" + metric + ")");
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Date");
+        graph.getGridLabelRenderer().setPadding(90);
+        Log.i("GRAPH PADDING", String.valueOf(graph.getGridLabelRenderer().getPadding()));
 
         // activate horizontal zooming and scrolling
         graph.getViewport().setScalable(true);
@@ -168,14 +187,14 @@ public class PlantCardView extends AppCompatActivity {
         graph.getViewport().setScrollableY(true);
 
         // set manual x bounds to have nice steps
-
-//        graph.getViewport().setMinX(measurementsData.get(0).getX()); // earliest date
-//        graph.getViewport().setMaxX(measurementsData.get(measurementsData.size() - 1).getX(); // latest date
-//        double minY = measurementsData.get(0).getY()/5;
-//        double maxY = measurementsData.get(0).getY()*5;
-//        graph.getViewport().setMinY(minY);
-//        graph.getViewport().setMaxY(maxY);
-//        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(measurementsData.get(0).getX()); // earliest date
+        graph.getViewport().setMaxX(measurementsData.get(measurementsData.size() - 1).getX()); // latest date
+        double minY = 0;
+        double maxY = measurementsData.get(0).getY() + 5;
+        graph.getViewport().setMinY(minY);
+        graph.getViewport().setMaxY(maxY);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
 
         // as we use dates as labels, the human rounding to nice readable numbers is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
@@ -200,6 +219,7 @@ public class PlantCardView extends AppCompatActivity {
                 InsetDrawable inset = new InsetDrawable(new ColorDrawable(Color.TRANSPARENT), 20);
                 cdd.getWindow().setBackgroundDrawable(inset);
                 cdd.show();
+                ((TextView) cdd.findViewById(R.id.newMetric)).setText(metric);
 
                 Button ok = (Button) cdd.findViewById(R.id.btnOk);
                 ok.setOnClickListener(new View.OnClickListener() {
@@ -207,19 +227,14 @@ public class PlantCardView extends AppCompatActivity {
                     public void onClick(View view) {
 
                         String edtMeasurement = ((EditText) cdd.findViewById(R.id.edtNewMeasure)).getText().toString();
-                        String newMetric = ((Spinner) cdd.findViewById(R.id.newMetric)).getSelectedItem().toString();
                         TextView txtEmpty = (TextView) cdd.findViewById(R.id.txtEmpty);
 
                         if (edtMeasurement.equals("")) {
                             txtEmpty.setVisibility(View.VISIBLE);
                         } else {
-                            long newMeasurement =
-                                    Long.parseLong(new DecimalFormat("##.##").format
-                                            (Long.valueOf(edtMeasurement)));
-
-                            plantMeasurement.setText(newMeasurement + " " + newMetric);
+                            plantMeasurement.setText(edtMeasurement + " " + metric);
                             // TODO: convert metric to first ever metric???
-                            measurements.put((new LocalDate()).toString(), newMeasurement);
+                            measurements.put((new LocalDate()).toString(), (long) Double.parseDouble(edtMeasurement));
 
                             // update database
                             assert currentUser != null;
@@ -231,7 +246,11 @@ public class PlantCardView extends AppCompatActivity {
                                     .update("growthMeasurement", measurements);
 
                             cdd.dismiss();
-                            Toast.makeText(PlantCardView.this, "Measurement added.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition(0, 0);
+                            Toast.makeText(PlantCardView.this, "Measurement added. Graph will update on return to Garden.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

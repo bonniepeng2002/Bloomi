@@ -25,29 +25,25 @@
 
     <EditText
         android:id="@+id/edtNewMeasure"
-        android:layout_width="135dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="7.2"
+        android:hint="1.1"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toStartOf="@+id/newMetric"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCE" />
 
-    <Spinner
+    <TextView
         android:id="@+id/newMetric"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:entries="@array/metrics"
+        android:layout_marginStart="16dp"
         android:paddingHorizontal="4dp"
         android:paddingVertical="4dp"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/edtNewMeasure"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/edtNewMeasure"
         app:layout_constraintTop_toTopOf="@+id/edtNewMeasure" />
 

@@ -137,16 +137,24 @@ when the field is correctly formatted again
 - Used Database References to sort all measurements by date!!
     - Most recent comes last 
     - "Latest measurement" on Plant Card View corresponds to this recent measurement 
+    - Began to populate graph with growth data. Buggy 
+    - No longer buggy!
+- Graph:
+    - X-Axis is date measurement was added 
+    - Y-Axis is height in metric the user chooses
+    - Graph updates when activity refreshes
+    - newest measurement is the rightmost data 
+        - X-Axis is sorted from oldest->most recent 
+- Redesigned Add Plant activity to look like Plant Card View 
+- Each plant has one type of metric to keep graph more accurate
+- Plant specific metric is displayed in Add Measurement dialog 
+
     
 ## TODO:
-- figure out metric stuff
-- get latest measurement from date and time 
 - make is so that the nicknames are unique
 - set up notifications based on the times indicated by the user
 - add plant
-    - remove image option
     - change the floating action button to a cardview in garden with a plus sign in the middle?
-- redesign Add Plant activity to look like Plant Card View 
 - make edit plant activity that's connected to db
     - delete plant 
 - make dashboard based on db

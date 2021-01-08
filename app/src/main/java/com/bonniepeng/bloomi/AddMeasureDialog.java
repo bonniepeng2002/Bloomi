@@ -3,7 +3,9 @@ package com.bonniepeng.bloomi;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -23,7 +25,7 @@ public class AddMeasureDialog extends Dialog {
     public Dialog dialog;
     public Button btnOk, btnCancel;
     private TextView txtEmpty;
-    private Spinner metric;
+    private TextView metric;
     private EditText newMeasurement;
 
     public AddMeasureDialog(Activity a) {
@@ -39,12 +41,13 @@ public class AddMeasureDialog extends Dialog {
         setContentView(R.layout.add_measurement_dialog);
 
         // INSTANTIATING
+
         btnOk = findViewById(R.id.btnOk);
         btnCancel = findViewById(R.id.btnCancel);
-        metric = findViewById(R.id.newMetric);
         newMeasurement = findViewById(R.id.edtNewMeasure);
         txtEmpty = findViewById(R.id.txtEmpty);
 
+        newMeasurement.setFilters(new InputFilter[]{new DigitsFilter()});
 
         // CANCEL
         btnCancel.setOnClickListener(new View.OnClickListener() {
