@@ -22,6 +22,8 @@
         <item>cm</item>
         <item>inches</item>
         <item>mm</item>
+        <item>feet</item>
+        <item>meters</item>
     </array>
     <array name="frequency">
         <item>Once</item>

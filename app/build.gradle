@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'com.jjoe64:graphview:4.2.2'
+    implementation 'com.github.jakebonk:NotifyMe:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'com.google.android.material:material:1.2.1'

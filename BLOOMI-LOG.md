@@ -149,25 +149,4 @@ when the field is correctly formatted again
 - Each plant has one type of metric to keep graph more accurate
 - Plant specific metric is displayed in Add Measurement dialog 
 
-    
-## TODO:
-- make is so that the nicknames are unique
-- set up notifications based on the times indicated by the user
-- add plant
-    - change the floating action button to a cardview in garden with a plus sign in the middle?
-- make edit plant activity that's connected to db
-    - delete plant 
-- make dashboard based on db
-- make logo
-- research and apply UI design principles 
-- testing app 
-    - database synchronization (seems all good rn)
-    - deleting
-    - editing
-    - adding
-    - logout (seems all good rn)
-    - login (seems all good rn)
-    - signup (seems all good rn)
-    - notifications
-- review constraints so that it looks the ~same on all devices
-- When app is finished, remove <intent-filter> tag from all activities in Manifest.xml EXCEPT FOR splash activity
+

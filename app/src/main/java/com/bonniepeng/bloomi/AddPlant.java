@@ -210,7 +210,7 @@ public class AddPlant extends AppCompatActivity {
                                     plant.put("notif", notify);
                                     if (notify) {
                                         plant.put("notifYear", notifYear);
-                                        plant.put("notifMonth", notifMonth); // the raw data is month number -1 (ie. april is 3)
+                                        plant.put("notifMonth", notifMonth + 1); // the raw data is month number -1 (ie. april is 3)
                                         plant.put("notifDay", notifDay);
                                         plant.put("notifHour", notifHour);
                                         plant.put("notifMinute", notifMinute);
@@ -229,15 +229,14 @@ public class AddPlant extends AppCompatActivity {
 
                                     // measurement
                                     // added as <Date as String, Measurement>
-                                    Map<String, Long> m = new HashMap<String, Long>();
+                                    Map<String, String> m = new HashMap<String, String>();
                                     if (!edtHeight.getText().toString().equals("")) {
                                         m.put((new LocalDate()).toString(),
-                                                (Long.valueOf(new DecimalFormat("##.##").format
-                                                        (Long.valueOf(edtHeight.getText().toString())))));
+                                                (edtHeight.getText().toString()));
                                         plant.put("growthMeasurement", m);
 
                                     } else {
-                                        m.put((new LocalDate()).toString(), Long.valueOf("0"));
+                                        m.put((new LocalDate()).toString(), "0");
                                         plant.put("growthMeasurement", m);
                                     }
 

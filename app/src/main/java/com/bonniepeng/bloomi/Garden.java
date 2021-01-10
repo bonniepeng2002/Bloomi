@@ -172,6 +172,7 @@ public class Garden extends Fragment implements RecyclerOnItemClick {
             Log.i("CURRENT INTENT TYPE", entry.getValue().getClass().toGenericString());
         }
 
+
         // for debug purposes
         Bundle bundle = intent.getExtras();
         if (bundle != null) {

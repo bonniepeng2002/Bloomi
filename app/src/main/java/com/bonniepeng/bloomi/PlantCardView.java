@@ -87,11 +87,11 @@ public class PlantCardView extends AppCompatActivity {
         String growthDate = intent.getStringExtra("growthDate");
         int notifDay = intent.getIntExtra("notifDay", -1);
         int notifMonth = intent.getIntExtra("notifMonth", -1);
-        int notifYear = intent.getIntExtra("notifYear", -1);
-        int notifHour = intent.getIntExtra("notifHour", -1);
-        int notifMinute = intent.getIntExtra("notifMinute", -1);
+        int notifYear = intent.getIntExtra("notifYear", 0);
+        int notifHour = intent.getIntExtra("notifHour", 17);
+        int notifMinute = intent.getIntExtra("notifMinute", 30);
         String notifFrequency = intent.getStringExtra("notifFrequency");
-        Map<String, Long> measurements = (HashMap<String, Long>) bundle.get("growthMeasurement");
+        Map<String, String> measurements = (HashMap<String, String>) bundle.get("growthMeasurement");
 
         // updating measurements in real time
 //        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
@@ -109,8 +109,8 @@ public class PlantCardView extends AppCompatActivity {
 //        });
 
 
-        SortedMap<String, Long> sortedMeasurements = new TreeMap<>(new DateComparator());
-        for (Map.Entry<String, Long> entry : measurements.entrySet()) {
+        SortedMap<String, String> sortedMeasurements = new TreeMap<>(new DateComparator());
+        for (Map.Entry<String, String> entry : measurements.entrySet()) {
             sortedMeasurements.put(entry.getKey(), entry.getValue());
         }
 
@@ -119,6 +119,8 @@ public class PlantCardView extends AppCompatActivity {
 
 
         // SETTING DATA
+        plantFrequency.setText(notifFrequency);
+        plantNotes.setText(notes);
         if (!nickname.equals("")) {
             plantName.setText(nickname);
             plantType.setText(sciName);
@@ -132,32 +134,40 @@ public class PlantCardView extends AppCompatActivity {
                 .fit()
                 .centerCrop()
                 .into(plantImage);
-        plantNotes.setText(notes);
         // set latest measurement to latest measurement in database
         String latestMeasurement = String.valueOf(sortedMeasurements.get(sortedMeasurements.lastKey()));
         Log.i("LATEST MEASUREMENT VALUE", latestMeasurement);
         plantMeasurement.setText(latestMeasurement + " " + metric);
-        plantFrequency.setText(notifFrequency);
+        // notifs
+        String ampm = "am";
+        if (notifHour > 12) {
+            notifHour -= 12;
+            ampm = "pm";
+        }
         if (notifFrequency.equals("")) {
             plantTime.setText("");
             plantNextNotif.setText("");
-            // TODO: dont show "at" and "next up"
-            // TODO: display "none"
+            plantFrequency.setText("None");
+            at.setVisibility(View.INVISIBLE);
+            plantNext.setVisibility(View.INVISIBLE);
+
         } else {
-            // TODO: show all info
-            plantTime.setText(notifHour + " : " + notifMinute);
+            // TODO: show next up time and date
+            plantNext.setVisibility(View.VISIBLE);
+            at.setVisibility(View.VISIBLE);
+            plantFrequency.setText(notifFrequency);
+            plantTime.setText(notifHour + " : " + notifMinute + " " + ampm);
         }
 
         // graph
 
         ArrayList<DataPoint> measurementsData = new ArrayList<>();
-        Iterator<Map.Entry<String, Long>> it = sortedMeasurements.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> it = sortedMeasurements.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, Long> pair = it.next();
-            Date date = null;
+            Map.Entry<String, String> pair = it.next();
             try {
-                date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(pair.getKey());
-                measurementsData.add(new DataPoint(date, pair.getValue()));
+                Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(pair.getKey());
+                measurementsData.add(new DataPoint(date, Float.parseFloat(pair.getValue())));
                 Log.i("DATE", date.toString());
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -233,8 +243,7 @@ public class PlantCardView extends AppCompatActivity {
                             txtEmpty.setVisibility(View.VISIBLE);
                         } else {
                             plantMeasurement.setText(edtMeasurement + " " + metric);
-                            // TODO: convert metric to first ever metric???
-                            measurements.put((new LocalDate()).toString(), (long) Double.parseDouble(edtMeasurement));
+                            measurements.put((new LocalDate()).toString(), edtMeasurement);
 
                             // update database
                             assert currentUser != null;

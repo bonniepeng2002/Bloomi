@@ -6,7 +6,7 @@
     android:id="@+id/APParent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FEFEFE"
+    android:background="#F1F1F1"
     android:fillViewport="true">
 
     <androidx.cardview.widget.CardView
@@ -45,7 +45,7 @@
                 android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="50dp"
                 android:letterSpacing=".05"
                 android:text="@string/add_a_plant"
                 android:textAllCaps="true"
@@ -97,16 +97,17 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="0.567"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtNotes"
-                app:layout_constraintVertical_bias="0.205" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/txtPlantType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/plant_type"
                 android:textColor="@color/purple_700"
                 app:layout_constraintStart_toStartOf="@+id/guideline"

@@ -1,18 +1,16 @@
 package com.bonniepeng.bloomi;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,6 +92,7 @@ public class Dashboard extends Fragment {
     private void instantiate() {
         // CALENDARVIEWS
         calendar = requireView().findViewById(R.id.upcomingNotifs);
+
     }
 
     @Override
