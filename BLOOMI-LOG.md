@@ -1,6 +1,6 @@
 <h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
 <p align="center"> A summary of everyday's progress! (Dec 30 - Jan 8) </p>
-
+<hr>
 Bloomi is definitely my biggest project yet, and it turned out to be even deeper than I could ever have thought of! But reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way. As this was my first time tinkering with Android development, I had plenty to learn and I've highlighted a select number of lessons below!
 
 ## I learned... 
