@@ -14,6 +14,6 @@ Ever forgotten to take care of your leafy friends? Introducing Bloomi, your virt
 <img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="350px" height="auto">
 </p>
 
-## :laptop: Development
+## :computer: Development
 I've documented everything going on under the hood in the creation of Bloomi, including every task and feature. Follow me along my [Bloomi development journey here!](https://github.com/bonniepeng2002/Bloomi/blob/master/BLOOMI-LOG.md)
 
