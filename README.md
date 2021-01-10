@@ -7,10 +7,12 @@ Ever forgotten to take care of your leafy friends? Introducing Bloomi, your virt
 - :green_heart:	By enabling Watering Notifications, you are notified on a date, time and frequency of your choice to care for your plants.
 
 ## Preview
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="150" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="150" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="150" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="150" height="auto">
+<p>
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="200" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="200" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="200" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="200" height="auto">
+</p>
 
 ## Development
 I've documented everything going on under the hood in the creation of Bloomi, including every task and feature. Follow me along my [Bloomi development journey here!](https://github.com/bonniepeng2002/Bloomi/blob/master/BLOOMI-LOG.md)
