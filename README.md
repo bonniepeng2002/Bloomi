@@ -8,10 +8,10 @@ Ever forgotten to take care of your leafy friends? Introducing Bloomi, your virt
 
 ## Preview
 <p>
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="200" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="200" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="200" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="200" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="400" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="400" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="400" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="400" height="auto">
 </p>
 
 ## Development
