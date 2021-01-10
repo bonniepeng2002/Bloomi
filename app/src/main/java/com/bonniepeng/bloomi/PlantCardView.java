@@ -45,10 +45,6 @@ import java.util.TreeMap;
 
 public class PlantCardView extends AppCompatActivity {
 
-
-    // TODO: make graph of growth from data
-    // TODO: setText for plantFrequency, plantTime, plantMeasurement, plantNextNotif
-    //  based on database info
     // TODO: implement "edit" activity
 
     private TextView plantName, plantType, plantWatering, plantFrequency, at,
@@ -56,7 +52,6 @@ public class PlantCardView extends AppCompatActivity {
     private Button btnEdit, btnBack, plantAddMeasurement;
     private ImageView plantImage;
     private GraphView graph;
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -92,22 +87,6 @@ public class PlantCardView extends AppCompatActivity {
         int notifMinute = intent.getIntExtra("notifMinute", 30);
         String notifFrequency = intent.getStringExtra("notifFrequency");
         Map<String, String> measurements = (HashMap<String, String>) bundle.get("growthMeasurement");
-
-        // updating measurements in real time
-//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
-//        DatabaseReference growthRef = myRef.child("users/" + currentUser.getUid() + "/plants/" + plantID);
-//        growthRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                measurements = snapshot.getValue(HashMap.class);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
 
         SortedMap<String, String> sortedMeasurements = new TreeMap<>(new DateComparator());
         for (Map.Entry<String, String> entry : measurements.entrySet()) {
