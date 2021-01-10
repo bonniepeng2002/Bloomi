@@ -8,12 +8,12 @@ Ever forgotten to take care of your leafy friends? Introducing Bloomi, your virt
 
 ## Preview
 <p>
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="400px" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="400px" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="400px" height="auto">
-<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="400px" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/garden.png" width="350px" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/dashboard.png" width="350px" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/plant1.png" width="350px" height="auto">
+<img src="https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png" width="350px" height="auto">
 </p>
 
-## Development
+## :laptop: Development
 I've documented everything going on under the hood in the creation of Bloomi, including every task and feature. Follow me along my [Bloomi development journey here!](https://github.com/bonniepeng2002/Bloomi/blob/master/BLOOMI-LOG.md)
 
