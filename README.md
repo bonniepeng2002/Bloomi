@@ -13,5 +13,5 @@ Ever forgotten to take care of your leafy friends? Introducing Bloomi, your virt
 ![Add a Plant](https://github.com/bonniepeng2002/Bloomi/blob/master/images/add_plant.png)
 
 ## Development
-I've documented every task and every feature throughout the creation of Bloomi. Follow me along my [Bloomi development journey here!](https://github.com/bonniepeng2002/Bloomi/blob/master/BLOOMI-LOG.md)
+I've documented everything going on under the hood in the creation of Bloomi, including every task and feature. Follow me along my [Bloomi development journey here!](https://github.com/bonniepeng2002/Bloomi/blob/master/BLOOMI-LOG.md)
 
