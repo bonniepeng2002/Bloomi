@@ -1,6 +1,30 @@
 <h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
-<p align="center"> A summary of everyday's progress! (Dec 30 - ongoing) </p>
+<p align="center"> A summary of everyday's progress! (Dec 30 - Jan 8) </p>
 
+Bloomi is definitely my biggest project yet, and it turned out to be even deeper than I could ever have thought of! But reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way. As this was my first time tinkering with Android development, I had plenty to learn and I've highlighted a select number of lessons below!
+
+## I learned... 
+- Java and Object-Oriented Programming:
+    - The Java language and principles of OOP.
+    - Common code exceptions and errors, and how to fix/avoid them.
+- Android SDK:
+    - Developing a .xml file and tailoring it to different screen sizes.
+    - Navigating through activities and passing data throughout the app.
+    - Layout constraints, relative positioning, etc.
+- Database:
+    - MySQL, PHP, and the way data is stored/retrieved.
+    - Cloud Firestore and implementing Firebase API methods.
+    - Extracting, sorting and analyzing data.
+    - Updating and displaying information in realtime.
+- Skills:
+    - Analyzing every detail and edge case.
+    - UI/UX fundamentals in mobile development.
+    - Motivation and planning ahead.
+    - When to sacrifice a smaller feature to implement a larger one.
+    - Strategic problem resolution, and how to (sneakily) work around "unfixable" bugs.
+
+##
+    
 ### Dec 30
 - Started the Bloomi project with Tabs activity
 - Connected the floating action button to the Add a New Plant Activity
