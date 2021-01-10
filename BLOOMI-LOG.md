@@ -7,12 +7,12 @@ I'm sharing with you below my entire journey in developing Bloomi, broken down b
 Let's code!
 
 ## :rocket: I learned: 
-- Java and Object-Oriented Programming:
-    - The Java language and principles of OOP.
-    - Common code exceptions and errors, and how to fix/avoid them.
+- Object-Oriented Programming:
+    - The Java programming language and applying the principles of OOP.
+    - Various code exceptions and errors + how to fix/avoid them.
 - Android SDK:
+    - Navigating and connecting activities, and passing data throughout the app.
     - Developing a .xml file and tailoring it to different screen sizes.
-    - Navigating through activities and passing data throughout the app.
     - Layout constraints, relative positioning, etc.
 - Database:
     - MySQL, PHP, and the way data is stored/retrieved.
