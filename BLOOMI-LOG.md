@@ -176,4 +176,62 @@ when the field is correctly formatted again
 - Each plant has one type of metric to keep graph more accurate
 - Plant specific metric is displayed in Add Measurement dialog 
 
-
+## Complete Collection of Everything I Learned:
+- Java
+    - Classes
+        - Constructors, getters, setters, contexts
+    - Methods
+        - Public, private, static, return types
+        - Overriding
+    - Exceptions
+        - try catch, debugging strategies
+    - Converting from one type to another
+        - Parsing
+    - Printing to and reading log
+    - Interfaces
+        - Implementations
+    - Abstract methods
+    - Applying API's / libraries
+        - Imports
+    - Converting from bitmap to files
+        - Input and Output streams
+    - Intents
+    - ArrayLists, Maps
+- Android
+    - Manifest file, XML code
+    - Gradle builds
+        - Libraries, third-party API's
+    - Third party API's and libraries
+    - Constraint, relative, linear layouts
+        - Margin, padding, visibility, style, id
+        - CalendarViews
+        - CardViews
+        - RecyclerViews
+        - TextViews, EditTexts
+        - Buttons
+        - Spinners
+        - ImageViews, ImageButtons
+        - ScrollViews
+        - Fragments, TabViews
+    - Date and time formatting
+    - Toasts, Snackbars
+    - Notification builders, channels
+    - Date and Time picker activities
+    - Dialogs
+        - custom dialogs
+        - exchanging data between activity and dialog
+    - App themes and styles
+    - Starting activities through intents
+    - Menu (settings)
+    - Splashscreens, launcher activities
+- Database
+    - Uploading and retrieving files to storage
+    - User authentication
+        - sign up
+        - log in
+        - password reset
+        - email change
+        - user id
+    - Creating, updating, reading documents
+    - Getting data by key
+    - Refreshing data
