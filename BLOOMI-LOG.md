@@ -3,15 +3,15 @@
 <hr>
 Bloomi is definitely my biggest project yet, and it turned out to be even deeper than I could ever have thought of! But reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way. As this was my first time tinkering with Android development, I had plenty to learn and I've highlighted a select number of lessons below!
 
-## I learned... 
-- Java and Object-Oriented Programming:
+## I learned: 
+<a href="https://www.java.com/" title="Java"><img src="https://github.com/tomchen/stack-icons/blob/master/logos/java.svg" alt="Java" width="21px" height="21px"></a>  Java and Object-Oriented Programming:
     - The Java language and principles of OOP.
     - Common code exceptions and errors, and how to fix/avoid them.
 - Android SDK:
     - Developing a .xml file and tailoring it to different screen sizes.
     - Navigating through activities and passing data throughout the app.
     - Layout constraints, relative positioning, etc.
-- Database:
+<a href="https://dev.mysql.com/" title="MySQL"><img src="https://github.com/tomchen/stack-icons/blob/master/logos/mysql.svg" alt="MySQL" width="21px" height="21px"></a> Database:
     - MySQL, PHP, and the way data is stored/retrieved.
     - Cloud Firestore and implementing Firebase API methods.
     - Extracting, sorting and analyzing data.
@@ -23,7 +23,7 @@ Bloomi is definitely my biggest project yet, and it turned out to be even deeper
     - When to sacrifice a smaller feature to implement a larger one.
     - Strategic problem resolution, and how to (sneakily) work around "unfixable" bugs.
 
-##
+## Development Log:
     
 ### Dec 30
 - Started the Bloomi project with Tabs activity
