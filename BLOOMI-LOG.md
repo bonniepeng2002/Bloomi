@@ -1,9 +1,10 @@
 <h1 align="center"> The Bloomi Development Journey 🌱 </h1><br>
 <p align="center"> A summary of everyday's progress! (Dec 30 - Jan 8) </p>
 <hr>
-I knew Bloomi would be my biggest project yet, but it became so much deeper than I ever could've thought!  
-However, reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way.  
-I'm sharing with you my entire journey in developing Bloomi, broken down by the day, and a quick summary of my biggest lessons for my first time in Android dev. Hope you enjoy!
+I knew Bloomi would be my biggest project yet, but it became so much deeper than I ever could've thought! <br>
+However, reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way. <br>
+I'm sharing with you my entire journey in developing Bloomi, broken down by the day, and a quick summary of what I've learned in my first time in Android dev. <br>
+Hope you enjoy!
 
 ## :rocket: I learned: 
 - Java and Object-Oriented Programming:
