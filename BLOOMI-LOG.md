@@ -4,7 +4,7 @@
 I knew Bloomi would be my biggest project yet, but it became so much deeper than I ever could've thought!
 However, reflecting on the abundance of newfound knowledge, I wouldn't have had it any other way. <br>
 I'm sharing with you below my entire journey in developing Bloomi, broken down by the day, and a quick summary of what I've learned in my first time in Android dev. <br>
-Hope you enjoy!
+Let's code!
 
 ## :rocket: I learned: 
 - Java and Object-Oriented Programming:
